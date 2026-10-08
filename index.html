@@ -50,7 +50,7 @@
         }
     </script>
 
-    <!-- Custom CSS for Glassmorphism & Panel Blur Effects -->
+    <!-- Custom CSS para Glassmorphism, Blur & Animações de Scroll -->
     <style>
         .glass-panel {
             background: rgba(255, 255, 255, 0.25);
@@ -82,7 +82,6 @@
             border: 1px solid rgba(42, 64, 50, 0.1);
         }
 
-        /* Large overlay hero typography & depth layering */
         .hero-title-back {
             font-size: clamp(3.5rem, 12vw, 11rem);
             line-height: 0.85;
@@ -110,7 +109,6 @@
             transform: translateY(-2px);
         }
 
-        /* Glass vertical columns animation */
         .panel-stripe {
             transition: all 0.5s ease;
         }
@@ -124,7 +122,19 @@
             filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.3));
         }
 
-        /* Hide scrollbars */
+        /* Classes de Animação ao Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scrollbar Personalizada */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -147,23 +157,19 @@
         <div
             class="glass-capsule px-6 py-3 rounded-full flex items-center justify-between gap-8 max-w-4xl w-full pointer-events-auto shadow-2xl">
 
-            <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group">
                 <img src="logo.svg" alt="Carioca Logo" class="h-8 w-auto object-contain">
             </a>
 
-            <!-- Navigation Links -->
             <nav
                 class="hidden md:flex items-center space-x-6 text-xs font-semibold tracking-wider uppercase text-gray-300">
                 <a href="#inicio" class="hover:text-white transition-colors">Início</a>
                 <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
                 <a href="#servicos" class="hover:text-white transition-colors">Serviços</a>
-                <a href="#galeria" class="hover:text-white transition-colors">Galeria</a>
                 <a href="#avaliacoes" class="hover:text-white transition-colors">Avaliações</a>
                 <a href="#contato" class="hover:text-white transition-colors">Contato</a>
             </nav>
 
-            <!-- CTA Button -->
             <button onclick="openBookingModal()"
                 class="bg-moss-700 hover:bg-moss-600 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full border border-moss-400/40 transition-all flex items-center gap-2 shadow-lg">
                 <i class="fa-regular fa-calendar-check text-xs"></i>
@@ -172,17 +178,14 @@
         </div>
     </header>
 
-    <!-- 100VH FULL SCREEN HERO SECTION -->
+    <!-- HERO SECTION -->
     <section id="inicio" class="relative h-screen w-full flex items-end justify-center overflow-hidden bg-softbg">
-
-        <!-- Blurred Background Barbershop Atmosphere -->
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=2000"
                 alt="Barbershop Background" class="w-full h-full object-cover filter blur-3xl scale-110 opacity-20">
             <div class="absolute inset-0 bg-gradient-to-b from-softbg via-transparent to-softbg"></div>
         </div>
 
-        <!-- Vertical Glass Stripes / Panels Overlay -->
         <div class="absolute inset-0 z-0 grid grid-cols-5 md:grid-cols-7 pointer-events-none">
             <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-md hidden md:block"></div>
             <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-sm"></div>
@@ -193,7 +196,6 @@
             <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-md hidden md:block"></div>
         </div>
 
-        <!-- Giant Background Typography Layer 1 (BEHIND CARIOCA) -->
         <div
             class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none select-none text-center pt-8">
             <p class="hero-title-back font-heading font-black -mt-4 sm:-mt-10">
@@ -201,26 +203,21 @@
             </p>
         </div>
 
-        <!-- Radial Ambient Glow -->
         <div
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] sm:w-[800px] sm:h-[800px] bg-moss-700/15 rounded-full blur-3xl z-10 pointer-events-none">
         </div>
 
-        <!-- CARIOCA PORTRAIT LAYER 2 (FULL 100VH HEIGHT & IMPOSING SIZE) -->
         <div
             class="relative z-20 h-[88vh] sm:h-[93vh] w-full max-w-[950px] flex items-end justify-center pointer-events-none">
             <img src="carioca.png" alt="Carioca"
                 class="h-full w-auto object-contain cutout-glow filter drop-shadow-2xl mx-auto"
                 onerror="this.onerror=null; this.src='carioca.png';">
-            <!-- Fade overlay at the bottom for smooth page transition -->
             <div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-softbg via-softbg/80 to-transparent">
             </div>
         </div>
 
-        <!-- FRONT CONTENT LAYER 3 (TEXT & CTA OVERLAY IN FRONT) -->
         <div
             class="absolute inset-x-0 bottom-6 z-30 flex flex-col items-center text-center px-4 space-y-3 max-w-4xl mx-auto pointer-events-auto">
-
             <div
                 class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-moss-900/90 backdrop-blur-md border border-moss-500/40 text-white text-xs font-semibold tracking-widest uppercase shadow-2xl">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -244,11 +241,10 @@
                 </button>
             </div>
         </div>
-
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="sobre" class="py-24 bg-white relative z-20 border-t border-gray-100">
+    <!-- ABOUT SECTION (Fundo Branco) -->
+    <section id="sobre" class="reveal py-24 bg-white relative z-20 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
@@ -328,7 +324,8 @@
         </div>
     </section>
 
-    <section id="servicos" class="py-24 bg-softbg relative z-20 border-t border-gray-200/60">
+    <!-- SERVICES SECTION (Fundo Softbg - Cinzento claro) -->
+    <section id="servicos" class="reveal py-24 bg-softbg relative z-20 border-t border-gray-200/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -345,7 +342,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- Service 3: Corte -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -366,8 +362,6 @@
                     </button>
                 </div>
 
-
-                <!-- Service 1: Barba -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -388,7 +382,6 @@
                     </button>
                 </div>
 
-                <!-- Service 2: Barba e Tintura -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -409,8 +402,6 @@
                     </button>
                 </div>
 
-
-                <!-- Service 4 (Featured Combo): Corte e Barba -->
                 <div
                     class="bg-moss-700 text-white rounded-3xl p-7 shadow-2xl relative flex flex-col justify-between border-2 border-moss-400 transform lg:-translate-y-2">
                     <div
@@ -435,8 +426,6 @@
                     </button>
                 </div>
 
-
-                <!-- Service 6: Corte, Barba, Tintura da Barba e do Cabelo -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -458,9 +447,6 @@
                     </button>
                 </div>
 
-
-
-                <!-- Service 10: Pezinho -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -481,7 +467,6 @@
                     </button>
                 </div>
 
-                <!-- Service 11: Sobrancelha -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -502,8 +487,6 @@
                     </button>
                 </div>
 
-
-                <!-- Service 14: Tintura de Cabelo -->
                 <div
                     class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
                     <div>
@@ -524,7 +507,6 @@
                     </button>
                 </div>
 
-                <!-- Service 15: Atendimento Exclusivo (Extra/VIP mantido para conveniência) -->
                 <div
                     class="glass-card rounded-3xl p-7 border-2 border-dashed border-moss-300 flex flex-col justify-between text-center">
                     <div>
@@ -532,11 +514,11 @@
                             class="w-12 h-12 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center text-xl mx-auto mb-3">
                             <i class="fa-solid fa-crown"></i>
                         </div>
-                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Duvidas </h3>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Dúvidas</h3>
                         <p class="text-gray-600 text-xs sm:text-sm mb-6">Verifique disponibilidade e consulte horários
                             diretamente com o profissional</p>
                     </div>
-                    <a href="https://wa.me/5521995660434?text=Olá%20Carioca!%20Gostaria%20de%20consultar%20os%20horário."
+                    <a href="https://wa.me/5521995660434?text=Olá%20Carioca!%20Gostaria%20de%20consultar%20os%20horários."
                         target="_blank"
                         class="w-full py-3 px-4 rounded-2xl bg-charcoal text-white hover:bg-black font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
                         <i class="fa-brands fa-whatsapp text-sm"></i>
@@ -547,61 +529,9 @@
             </div>
         </div>
     </section>
-    <!-- GALLERY SECTION 
-    <section id="galeria" class="py-24 bg-white relative z-20 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <span
-                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
-                    Portfólio
-                </span>
-                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
-                    Galeria de Estilos
-                </h2>
-            </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div
-                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=600"
-                        alt="Mid Fade"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Mid Fade
-                            Degradê</span>
-                    </div>
-                </div>
-
-                <div
-                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600"
-                        alt="Barba Modelada"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Barba
-                            Alinhada</span>
-                    </div>
-                </div>
-
-                <div
-                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=600"
-                        alt="Corte Texturizado"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div
-                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Crop
-                            Texturizado</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="avaliacoes" class="py-24 bg-softbg relative z-20 border-t border-gray-200/60">
+    <!-- TESTIMONIALS SECTION (Fundo Branco para contraste) -->
+    <section id="avaliacoes" class="reveal py-24 bg-white relative z-20 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-14">
                 <span
@@ -634,7 +564,7 @@
                 </div>
 
                 <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <p class="text-gray-600 text-sm italic mb-6">"Excelente! Carioca é extremamente profissionais.
+                    <p class="text-gray-600 text-sm italic mb-6">"Excelente! Carioca é extremamente profissional.
                         Ambiente profissional e descontraído."</p>
                     <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
                         <div
@@ -673,13 +603,12 @@
             </div>
         </div>
     </section>
-    -->
 
-    <section id="contato" class="py-24 bg-white relative z-20 border-t border-gray-100">
+    <!-- CONTACT SECTION (Fundo Softbg) -->
+    <section id="contato" class="reveal py-24 bg-softbg relative z-20 border-t border-gray-200/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                <!-- Coluna de Informações e Agendamento -->
                 <div class="lg:col-span-6 space-y-6">
                     <span
                         class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
@@ -690,7 +619,6 @@
                     </h2>
 
                     <div class="space-y-4 pt-2">
-                        <!-- Endereço (Carregado de endereco.txt) -->
                         <div class="flex items-start gap-4">
                             <div
                                 class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
@@ -702,7 +630,6 @@
                             </div>
                         </div>
 
-                        <!-- Horários (Carregado de horario.txt) -->
                         <div class="flex items-start gap-4">
                             <div
                                 class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
@@ -714,7 +641,6 @@
                             </div>
                         </div>
 
-                        <!-- WhatsApp (Mantido estático ou adaptável) -->
                         <div class="flex items-start gap-4">
                             <div
                                 class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
@@ -726,7 +652,6 @@
                             </div>
                         </div>
 
-                        <!-- Botão com largura total (w-full) -->
                         <button onclick="openBookingModal()"
                             class="w-full text-center glow-button bg-moss-700 text-white font-extrabold px-8 py-4 rounded-full text-xs uppercase tracking-widest border border-moss-500/40 mt-4">
                             Agendar Agora
@@ -734,7 +659,6 @@
                     </div>
                 </div>
 
-                <!-- Coluna do Mapa -->
                 <div class="lg:col-span-6 h-full flex items-center">
                     <div id="openstreetmap"
                         class="w-full h-80 sm:h-[450px] rounded-2xl border border-gray-200 shadow-md z-10">
@@ -753,7 +677,6 @@
         </div>
     </footer>
 
-    <!-- Floating WhatsApp Action -->
     <a href="https://wa.me/5521995660434" target="_blank"
         class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform">
         <i class="fa-brands fa-whatsapp"></i>
@@ -793,7 +716,6 @@
                         <label class="block text-xs font-bold text-charcoal mb-1">Horário</label>
                         <select id="modal-time" required
                             class="w-full bg-softbg border border-gray-200 rounded-2xl px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
-                            <!-- Preenchido dinamicamente pelo JavaScript -->
                         </select>
                     </div>
                 </div>
@@ -806,7 +728,8 @@
 
                 <div>
                     <label class="block text-xs font-bold text-charcoal mb-1">Telefone WhatsApp</label>
-                    <input type="tel" id="modal-phone" placeholder="(11) 99999-9999" required
+                    <input type="tel" id="modal-phone" placeholder="(14) 99818-1004" maxlength="15" required
+                        oninput="formatarTelefone(this)"
                         class="w-full bg-softbg border border-gray-200 rounded-2xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
                 </div>
 
@@ -820,6 +743,45 @@
     </div>
 
     <script>
+        function formatarTelefone(input) {
+            // Remove tudo o que não for dígito
+            let value = input.value.replace(/\D/g, '');
+
+            // Limita a 11 dígitos
+            value = value.substring(0, 11);
+
+            // Formatação progressiva baseada na quantidade de números
+            if (value.length > 10) {
+                // 11 dígitos: (XX) XXXXX-XXXX
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+            } else if (value.length > 6) {
+                // Até 10 dígitos (durante a digitação): (XX) XXXX-XXXX
+                value = value.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                // DDD preenchido: (XX) XXX...
+                value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+            } else if (value.length > 0) {
+                // Apenas DDD sendo digitado: (XX...
+                value = value.replace(/^(\d*)$/, '($1');
+            }
+
+            input.value = value;
+        }
+
+        // --- Efeito de Revelação ao Scroll (Scroll Reveal) ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        // --- Restante do código JS da aplicação ---
         async function carregarOpcoes() {
             try {
                 const response = await fetch('opcoes.txt');
@@ -828,19 +790,16 @@
                 const select = document.getElementById('select-servicos');
                 select.innerHTML = '<option value="">Selecione um serviço...</option>';
 
-                // Separa cada linha do ficheiro
                 const linhas = text.split('\n');
 
                 linhas.forEach(linha => {
                     const linhaLimpa = linha.trim();
                     if (linhaLimpa) {
-                        // Formata o value como "Nome (R$ 00,00)"
                         const partes = linhaLimpa.split('—');
                         const nome = partes[0].trim();
                         const preco = partes[1] ? partes[1].trim() : '';
                         const valueFormatted = `${nome} (${preco})`;
 
-                        // Cria o elemento <option>
                         const option = document.createElement('option');
                         option.value = valueFormatted;
                         option.textContent = linhaLimpa;
@@ -853,7 +812,6 @@
             }
         }
 
-        // Executa o carregamento ao abrir a página
         document.addEventListener('DOMContentLoaded', carregarOpcoes);
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
@@ -862,7 +820,6 @@
         dateInput.min = today;
         dateInput.value = today;
 
-        // Gera os horários de 30 em 30 minutos das 09:00 às 20:00
         const allTimes = [];
         for (let hour = 9; hour <= 20; hour++) {
             allTimes.push(`${String(hour).padStart(2, '0')}:00`);
@@ -878,12 +835,10 @@
 
             if (!selectedDateStr) return;
 
-            // Validação de Fuso para pegar o dia correto da semana localmente
             const [year, month, day] = selectedDateStr.split('-');
             const selectedDate = new Date(year, month - 1, day);
-            const dayOfWeek = selectedDate.getDay(); // 0 = Domingo, 1 = Segunda-feira
+            const dayOfWeek = selectedDate.getDay();
 
-            // Bloqueia Domingo (0) e Segunda-feira (1)
             if (dayOfWeek === 0 || dayOfWeek === 1) {
                 const opt = document.createElement('option');
                 opt.value = "";
@@ -896,8 +851,6 @@
 
             const now = new Date();
             const isToday = selectedDateStr === now.toISOString().split('T')[0];
-
-            // Adiciona 2 horas ao horário atual para a regra de antecedência
             const minValidTimeInMinutes = isToday ? (now.getHours() + 2) * 60 + now.getMinutes() : 0;
 
             let availableCount = 0;
@@ -906,7 +859,6 @@
                 const [hours, minutes] = timeStr.split(':').map(Number);
                 const slotTimeInMinutes = hours * 60 + minutes;
 
-                // Se for hoje, o horário precisa ser pelo menos 2 horas à frente
                 if (!isToday || slotTimeInMinutes >= minValidTimeInMinutes) {
                     const opt = document.createElement('option');
                     opt.value = timeStr;
@@ -926,12 +878,11 @@
             }
         }
 
-        // Inicializa os horários ao carregar a página
         updateAvailableTimes();
 
         function openBookingModal() {
             document.getElementById('booking-modal').classList.remove('hidden');
-            updateAvailableTimes(); // Atualiza sempre que abrir
+            updateAvailableTimes();
         }
 
         function closeBookingModal() {
@@ -942,7 +893,6 @@
             const select = document.getElementById('select-servicos');
             const targetValue = `${serviceName} (R$ ${price},00)`;
 
-            // Seleciona o serviço correspondente no <select>
             for (let option of select.options) {
                 if (option.value === targetValue || option.text.includes(serviceName)) {
                     option.selected = true;
@@ -963,7 +913,6 @@
             const name = document.getElementById('modal-name').value;
             const phone = document.getElementById('modal-phone').value;
 
-            // Validação extra no envio caso selecionem um dia bloqueado manualmente
             const [year, month, day] = date.split('-');
             const selectedDate = new Date(year, month - 1, day);
             const dayOfWeek = selectedDate.getDay();
@@ -999,21 +948,18 @@
 
         async function carregarDadosContato() {
             try {
-                // 1. Carregar Endereço
                 const resEnd = await fetch('endereco.txt');
                 if (resEnd.ok) {
                     const textoEndereco = await resEnd.text();
                     document.getElementById('txt-endereco').innerText = textoEndereco.trim();
                 }
 
-                // 2. Carregar Horário
                 const resHorario = await fetch('horario.txt');
                 if (resHorario.ok) {
                     const textoHorario = await resHorario.text();
                     document.getElementById('txt-horario').innerText = textoHorario.trim();
                 }
 
-                // 3. Carregar Coordenadas do loc.txt e inicializar o mapa
                 const resLoc = await fetch('loc.txt');
                 if (resLoc.ok) {
                     const textoLoc = await resLoc.text();
@@ -1023,7 +969,7 @@
                         inicializarMapa(lat, lng);
                     } else {
                         console.error('Formato inválido em loc.txt. Use: lat,lng');
-                        inicializarMapa(-22.518, -49.986); // Fallback padrão caso dê erro
+                        inicializarMapa(-22.518, -49.986);
                     }
                 }
             } catch (error) {
@@ -1032,23 +978,19 @@
         }
 
         function inicializarMapa(lat, lng) {
-            // Cria o mapa na div 'openstreetmap'
             const map = L.map('openstreetmap').setView([lat, lng], 15);
 
-            // Adiciona a camada de tiles do Google Maps Satélite
             L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
                 attribution: '&copy; Google Maps'
             }).addTo(map);
 
-            // Adiciona um marcador no local
             L.marker([lat, lng]).addTo(map)
                 .bindPopup('<b>Onde Encontrar o Carioca</b>')
                 .openPopup();
         }
 
-        // Executa a função ao carregar a página
         document.addEventListener('DOMContentLoaded', carregarDadosContato);
     </script>
 </body>
