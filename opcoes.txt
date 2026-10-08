@@ -1,0 +1,14 @@
+Barba — R$ 45,00
+Barba e Tintura — R$ 75,00
+Corte — R$ 50,00
+Corte e Barba — R$ 90,00
+Corte, Barba e Tintura da Barba — R$ 120,00
+Corte, Barba, Tintura da Barba e do Cabelo — R$ 160,00
+Depilação de Nariz — R$ 20,00
+Depilação de Ouvido — R$ 15,00
+Penteado — R$ 15,00
+Pezinho — R$ 15,00
+Sobrancelha — R$ 25,00
+Sobrancelha Feita na Navalha — R$ 20,00
+Tintura da Barba — R$ 30,00
+Tintura de Cabelo — R$ 40,00

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbeiro Carioca</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        moss: {
+                            50: '#f2f6f3',
+                            100: '#e1ebe3',
+                            200: '#c5d7c9',
+                            300: '#9ebca5',
+                            400: '#739c7c',
+                            500: '#527e5c',
+                            600: '#3d6346',
+                            700: '#2A4032', /* Deep Moss Green Accent */
+                            800: '#233429',
+                            900: '#1c2b22',
+                        },
+                        charcoal: '#111613',
+                        softbg: '#FAFAFA'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Glassmorphism & Panel Blur Effects -->
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .glass-panel-dark {
+            background: rgba(42, 64, 50, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-capsule {
+            background: rgba(18, 28, 22, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(42, 64, 50, 0.1);
+        }
+
+        /* Large overlay hero typography & depth layering */
+        .hero-title-back {
+            font-size: clamp(3.5rem, 12vw, 11rem);
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            color: rgba(17, 22, 19, 0.08);
+            text-transform: uppercase;
+            user-select: none;
+        }
+
+        .hero-title-front {
+            font-size: clamp(2.5rem, 7.5vw, 6.5rem);
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            color: #111613;
+            text-shadow: 0 10px 30px rgba(255, 255, 255, 0.9);
+        }
+
+        .glow-button {
+            box-shadow: 0 0 25px rgba(42, 64, 50, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 40px rgba(61, 99, 70, 0.65);
+            transform: translateY(-2px);
+        }
+
+        /* Glass vertical columns animation */
+        .panel-stripe {
+            transition: all 0.5s ease;
+        }
+
+        .panel-stripe:hover {
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .cutout-glow {
+            filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Hide scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #FAFAFA;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2A4032;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-softbg text-charcoal font-sans antialiased overflow-x-hidden selection:bg-moss-700 selection:text-white">
+
+    <header class="fixed top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+        <div
+            class="glass-capsule px-6 py-3 rounded-full flex items-center justify-between gap-8 max-w-4xl w-full pointer-events-auto shadow-2xl">
+
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="logo.svg" alt="Carioca Logo" class="h-8 w-auto object-contain">
+            </a>
+
+            <!-- Navigation Links -->
+            <nav
+                class="hidden md:flex items-center space-x-6 text-xs font-semibold tracking-wider uppercase text-gray-300">
+                <a href="#inicio" class="hover:text-white transition-colors">Início</a>
+                <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
+                <a href="#servicos" class="hover:text-white transition-colors">Serviços</a>
+                <a href="#galeria" class="hover:text-white transition-colors">Galeria</a>
+                <a href="#avaliacoes" class="hover:text-white transition-colors">Avaliações</a>
+                <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <button onclick="openBookingModal()"
+                class="bg-moss-700 hover:bg-moss-600 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full border border-moss-400/40 transition-all flex items-center gap-2 shadow-lg">
+                <i class="fa-regular fa-calendar-check text-xs"></i>
+                <span>Agendar</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 100VH FULL SCREEN HERO SECTION -->
+    <section id="inicio" class="relative h-screen w-full flex items-end justify-center overflow-hidden bg-softbg">
+
+        <!-- Blurred Background Barbershop Atmosphere -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=2000"
+                alt="Barbershop Background" class="w-full h-full object-cover filter blur-3xl scale-110 opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-b from-softbg via-transparent to-softbg"></div>
+        </div>
+
+        <!-- Vertical Glass Stripes / Panels Overlay -->
+        <div class="absolute inset-0 z-0 grid grid-cols-5 md:grid-cols-7 pointer-events-none">
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-md hidden md:block"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-sm"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-none"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-none bg-white/10"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-none"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-sm"></div>
+            <div class="panel-stripe border-r border-gray-200/50 backdrop-blur-md hidden md:block"></div>
+        </div>
+
+        <!-- Giant Background Typography Layer 1 (BEHIND CARIOCA) -->
+        <div
+            class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none select-none text-center pt-8">
+            <p class="hero-title-back font-heading font-black -mt-4 sm:-mt-10">
+                CARIOCA
+            </p>
+        </div>
+
+        <!-- Radial Ambient Glow -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] sm:w-[800px] sm:h-[800px] bg-moss-700/15 rounded-full blur-3xl z-10 pointer-events-none">
+        </div>
+
+        <!-- CARIOCA PORTRAIT LAYER 2 (FULL 100VH HEIGHT & IMPOSING SIZE) -->
+        <div
+            class="relative z-20 h-[88vh] sm:h-[93vh] w-full max-w-[950px] flex items-end justify-center pointer-events-none">
+            <img src="carioca.png" alt="Barbeiro Carioca"
+                class="h-full w-auto object-contain cutout-glow filter drop-shadow-2xl mx-auto"
+                onerror="this.onerror=null; this.src='carioca.png';">
+            <!-- Fade overlay at the bottom for smooth page transition -->
+            <div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-softbg via-softbg/80 to-transparent">
+            </div>
+        </div>
+
+        <!-- FRONT CONTENT LAYER 3 (TEXT & CTA OVERLAY IN FRONT) -->
+        <div
+            class="absolute inset-x-0 bottom-6 z-30 flex flex-col items-center text-center px-4 space-y-3 max-w-4xl mx-auto pointer-events-auto">
+
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-moss-900/90 backdrop-blur-md border border-moss-500/40 text-white text-xs font-semibold tracking-widest uppercase shadow-2xl">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                • BARBEIRO ESPECIALISTA &amp; VISAGISTA
+            </div>
+
+            <h1 class="hero-title-front font-heading font-black tracking-tight text-charcoal">
+                CARIOCA
+            </h1>
+
+            <p
+                class="font-heading text-xs sm:text-sm md:text-base font-extrabold tracking-widest uppercase text-moss-700 bg-white/70 backdrop-blur-md px-6 py-1 rounded-full border border-moss-200 shadow-sm">
+                Estilo, Precisão &amp; Exclusividade
+            </p>
+
+            <div class="pt-2">
+                <button onclick="openBookingModal()"
+                    class="glow-button bg-moss-700 hover:bg-moss-800 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-widest px-10 py-4 rounded-full border border-moss-500/40 flex items-center gap-3 shadow-2xl">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Agendar Horário</span>
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="sobre" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <div class="lg:col-span-6 space-y-6">
+                    <span
+                        class="px-3.5 py-1.5 bg-moss-50 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
+                        // A Experiência
+                    </span>
+
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal leading-tight">
+                        A Arte da Barbearia de Alto Padrão
+                    </h2>
+
+                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                        O Barbeiro Carioca une o rigor técnico da barbearia clássica às mais modernas tendências de
+                        corte e visagismo masculino. Cada atendimento é planejado levando em consideração a estrutura
+                        facial, tipo de fio e estilo de vida de cada cliente.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                            <i class="fa-solid fa-scissors text-moss-700 text-xl mb-2"></i>
+                            <h4 class="font-heading font-bold text-charcoal text-sm">Visagismo Personalizado</h4>
+                            <p class="text-xs text-gray-500 mt-1">Design de barba e corte adaptados ao seu rosto.</p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                            <i class="fa-solid fa-clock text-moss-700 text-xl mb-2"></i>
+                            <h4 class="font-heading font-bold text-charcoal text-sm">Pontualidade Absoluta</h4>
+                            <p class="text-xs text-gray-500 mt-1">Respeito rigoroso aos horários agendados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div
+                        class="relative rounded-3xl overflow-hidden bg-moss-900 text-white p-8 sm:p-12 shadow-2xl border border-moss-700">
+                        <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-moss-700/20 rounded-full blur-2xl"></div>
+
+                        <div class="relative z-10 space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-moss-700 text-white flex items-center justify-center font-heading font-bold text-2xl border border-moss-500/40">
+                                    C
+                                </div>
+                                <div>
+                                    <h3 class="font-heading text-xl font-bold">Carioca</h3>
+                                    <p class="text-xs text-moss-300 uppercase tracking-wider font-medium">Barbeiro
+                                        &amp; Visagista</p>
+                                </div>
+                            </div>
+
+                            <p class="text-moss-100 text-sm leading-relaxed italic">
+                                "Não se trata apenas de cortar o cabelo ou alinhar a barba, mas de entregar uma
+                                experiência de renovação de imagem e autoestima."
+                            </p>
+
+                            <div class="grid grid-cols-3 gap-4 pt-4 border-t border-moss-800 text-center">
+                                <div>
+                                    <p class="font-heading text-2xl font-black text-white">+8</p>
+                                    <p class="text-[10px] text-moss-300 uppercase font-semibold">Anos de Prática</p>
+                                </div>
+                                <div>
+                                    <p class="font-heading text-2xl font-black text-white">+5k</p>
+                                    <p class="text-[10px] text-moss-300 uppercase font-semibold">Clientes</p>
+                                </div>
+                                <div>
+                                    <p class="font-heading text-2xl font-black text-emerald-400">100%</p>
+                                    <p class="text-[10px] text-moss-300 uppercase font-semibold">Satisfação</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="py-24 bg-softbg relative z-20 border-t border-gray-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span
+                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
+                    Menu VIP
+                </span>
+                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
+                    Serviços &amp; Tabela de Valores
+                </h2>
+                <p class="text-gray-600 text-sm mt-2">Selecione o serviço desejado para iniciar seu agendamento direto.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Service 3: Corte -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">45
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 50,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Corte</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Corte de cabelo moderno ou
+                            clássico com acabamento impecável.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Corte', 50)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+
+                <!-- Service 1: Barba -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">30
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 45,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Barba</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Modelagem tradicional e
+                            cuidados essenciais para a sua barba.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Barba', 45)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Service 2: Barba e Tintura -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">45
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 75,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Barba e Tintura</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Serviço completo de barba
+                            aliado à tintura profissional para correção de falhas ou fios brancos.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Barba e Tintura', 75)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+
+                <!-- Service 4 (Featured Combo): Corte e Barba -->
+                <div
+                    class="bg-moss-700 text-white rounded-3xl p-7 shadow-2xl relative flex flex-col justify-between border-2 border-moss-400 transform lg:-translate-y-2">
+                    <div
+                        class="absolute -top-3.5 right-6 bg-emerald-400 text-charcoal text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                        Mais Solicitado
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-800 text-moss-200 text-xs font-bold rounded-xl border border-moss-600">60
+                                min</span>
+                            <span class="font-heading text-3xl font-black text-white">R$ 90,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-white mb-2">Corte e Barba</h3>
+                        <p class="text-moss-100 text-xs sm:text-sm mb-6 leading-relaxed">O combo clássico indispensável
+                            para renovar o visual completo com estilo e sofisticação.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Corte e Barba', 90)"
+                        class="w-full py-3.5 px-4 rounded-2xl bg-white text-moss-700 hover:bg-moss-50 font-extrabold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                        <span>Agendar Combo VIP</span>
+                        <i class="fa-solid fa-sparkles text-xs"></i>
+                    </button>
+                </div>
+
+
+                <!-- Service 6: Corte, Barba, Tintura da Barba e do Cabelo -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">105
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 160,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Corte, Barba, Tintura da Barba e
+                            do Cabelo</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Transformação completa de alto
+                            padrão cobrindo cabelo, barba e respectivas tinturas.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Corte, Barba, Tintura da Barba e do Cabelo', 160)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+
+
+                <!-- Service 10: Pezinho -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">15
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 15,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Pezinho</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Manutenção rápida do contorno
+                            do cabelo e nuca para manter o corte em dia.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Pezinho', 15)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Service 11: Sobrancelha -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">15
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 25,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Sobrancelha</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Alinhamento e design de
+                            sobrancelhas para valorizar a expressão facial.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Sobrancelha', 25)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+
+                <!-- Service 14: Tintura de Cabelo -->
+                <div
+                    class="glass-card rounded-3xl p-7 hover:border-moss-600 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span
+                                class="px-3 py-1 bg-moss-50 text-moss-700 text-xs font-bold rounded-xl border border-moss-200">30
+                                min</span>
+                            <span class="font-heading text-2xl font-black text-moss-700">R$ 40,00</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Tintura de Cabelo</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6 leading-relaxed">Aplicação profissional de
+                            tintura capilar para renovação e cobertura de fios brancos.</p>
+                    </div>
+                    <button onclick="selectServiceAndOpenModal('Tintura de Cabelo', 40)"
+                        class="w-full py-3 px-4 rounded-2xl bg-moss-700 hover:bg-moss-800 text-white font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>Selecionar &amp; Agendar</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Service 15: Atendimento Exclusivo (Extra/VIP mantido para conveniência) -->
+                <div
+                    class="glass-card rounded-3xl p-7 border-2 border-dashed border-moss-300 flex flex-col justify-between text-center">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center text-xl mx-auto mb-3">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-charcoal mb-2">Duvidas </h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-6">Verifique disponibilidade e consulte horários
+                            diretamente com o profissional</p>
+                    </div>
+                    <a href="https://wa.me/5521995660434?text=Olá%20Carioca!%20Gostaria%20de%20consultar%20os%20horário."
+                        target="_blank"
+                        class="w-full py-3 px-4 rounded-2xl bg-charcoal text-white hover:bg-black font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Consultar Horários</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- GALLERY SECTION 
+    <section id="galeria" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span
+                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
+                    Portfólio
+                </span>
+                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
+                    Galeria de Estilos
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div
+                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=600"
+                        alt="Mid Fade"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Mid Fade
+                            Degradê</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600"
+                        alt="Barba Modelada"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Barba
+                            Alinhada</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative group rounded-3xl overflow-hidden aspect-square bg-gray-100 border border-gray-200 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=600"
+                        alt="Corte Texturizado"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-moss-900/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <span class="text-white font-heading text-xs font-bold uppercase tracking-wider">Crop
+                            Texturizado</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="avaliacoes" class="py-24 bg-softbg relative z-20 border-t border-gray-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span
+                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
+                    Depoimentos
+                </span>
+                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
+                    Quem Confia no Carioca
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                    <p class="text-gray-600 text-sm italic mb-6">"Carioca é o melhor barbeiro da cidade. Indo lá sempre
+                        para renovar meu visual."</p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div
+                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
+                            JL
+                        </div>
+                        <div>
+                            <p class="font-bold text-charcoal text-xs">João Latczuk</p>
+                            <div class="flex text-amber-400 text-[10px]">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                    <p class="text-gray-600 text-sm italic mb-6">"Excelente! Carioca é extremamente profissionais.
+                        Ambiente profissional e descontraído."</p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div
+                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
+                            MA
+                        </div>
+                        <div>
+                            <p class="font-bold text-charcoal text-xs">Luiz Otavio</p>
+                            <div class="flex text-amber-400 text-[10px]">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                    <p class="text-gray-600 text-sm italic mb-6">"Atendimento muito bom! Meu filho sempre corta o cabelo
+                        com o Carioca que é um ótimo cabeleireiro e muito atencioso!"</p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div
+                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
+                            LF
+                        </div>
+                        <div>
+                            <p class="font-bold text-charcoal text-xs">Vanessa Cadamuro</p>
+                            <div class="flex text-amber-400 text-[10px]">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <section id="contato" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Coluna de Informações e Agendamento -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span
+                        class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full">
+                        Localização
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal">
+                        Onde Encontrar o Carioca
+                    </h2>
+
+                    <div class="space-y-4 pt-2">
+                        <!-- Endereço (Carregado de endereco.txt) -->
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">Endereço</h4>
+                                <p id="txt-endereco" class="text-xs text-gray-600">Carregando endereço...</p>
+                            </div>
+                        </div>
+
+                        <!-- Horários (Carregado de horario.txt) -->
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">Horários de Atendimento</h4>
+                                <p id="txt-horario" class="text-xs text-gray-600">Carregando horários...</p>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp (Mantido estático ou adaptável) -->
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-charcoal text-sm">WhatsApp</h4>
+                                <p class="text-xs text-gray-600">(21) 99566-0434</p>
+                            </div>
+                        </div>
+
+                        <!-- Botão com largura total (w-full) -->
+                        <button onclick="openBookingModal()"
+                            class="w-full text-center glow-button bg-moss-700 text-white font-extrabold px-8 py-4 rounded-full text-xs uppercase tracking-widest border border-moss-500/40 mt-4">
+                            Agendar Agora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coluna do Mapa -->
+                <div class="lg:col-span-6 h-full flex items-center">
+                    <div id="openstreetmap"
+                        class="w-full h-80 sm:h-[450px] rounded-2xl border border-gray-200 shadow-md z-10">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-charcoal text-white py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="font-heading font-extrabold tracking-widest text-sm text-moss-300">BARBEIRO CARIOCA</p>
+            <p class="text-xs text-gray-400">&copy; <span id="current-year"></span> Barbeiro Carioca. Todos os direitos
+                reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Action -->
+    <a href="https://wa.me/5521995660434" target="_blank"
+        class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <div id="booking-modal"
+        class="fixed inset-0 z-50 bg-charcoal/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 sm:p-8 relative border border-gray-100">
+
+            <button onclick="closeBookingModal()"
+                class="absolute top-5 right-5 text-gray-400 hover:text-charcoal p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <span class="text-xs text-moss-700 font-extrabold uppercase tracking-widest">// AGENDAMENTO
+                    ONLINE</span>
+                <h3 class="font-heading text-2xl font-extrabold text-charcoal">Reserva de Horário</h3>
+            </div>
+
+            <form onsubmit="handleModalBookingSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-charcoal mb-1">Serviço Desejado</label>
+                    <select id="select-servicos"
+                        class="w-full p-3 border rounded-lg bg-white text-sm text-gray-800 font-medium">
+                        <option value="">Carregando serviços...</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal mb-1">Data</label>
+                        <input type="date" id="modal-date" required onchange="updateAvailableTimes()"
+                            class="w-full bg-softbg border border-gray-200 rounded-2xl px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal mb-1">Horário</label>
+                        <select id="modal-time" required
+                            class="w-full bg-softbg border border-gray-200 rounded-2xl px-3 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                            <!-- Preenchido dinamicamente pelo JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-charcoal mb-1">Nome Completo</label>
+                    <input type="text" id="modal-name" placeholder="Digite seu nome" required
+                        class="w-full bg-softbg border border-gray-200 rounded-2xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-charcoal mb-1">Telefone WhatsApp</label>
+                    <input type="tel" id="modal-phone" placeholder="(11) 99999-9999" required
+                        class="w-full bg-softbg border border-gray-200 rounded-2xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-moss-700 hover:bg-moss-800 text-white font-extrabold py-3.5 rounded-2xl shadow-lg transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Confirmar via WhatsApp</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function carregarOpcoes() {
+            try {
+                const response = await fetch('opcoes.txt');
+                const text = await response.text();
+
+                const select = document.getElementById('select-servicos');
+                select.innerHTML = '<option value="">Selecione um serviço...</option>';
+
+                // Separa cada linha do ficheiro
+                const linhas = text.split('\n');
+
+                linhas.forEach(linha => {
+                    const linhaLimpa = linha.trim();
+                    if (linhaLimpa) {
+                        // Formata o value como "Nome (R$ 00,00)"
+                        const partes = linhaLimpa.split('—');
+                        const nome = partes[0].trim();
+                        const preco = partes[1] ? partes[1].trim() : '';
+                        const valueFormatted = `${nome} (${preco})`;
+
+                        // Cria o elemento <option>
+                        const option = document.createElement('option');
+                        option.value = valueFormatted;
+                        option.textContent = linhaLimpa;
+
+                        select.appendChild(option);
+                    }
+                });
+            } catch (error) {
+                console.error('Erro ao carregar opções:', error);
+            }
+        }
+
+        // Executa o carregamento ao abrir a página
+        document.addEventListener('DOMContentLoaded', carregarOpcoes);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        const today = new Date().toISOString().split('T')[0];
+        const dateInput = document.getElementById('modal-date');
+        dateInput.min = today;
+        dateInput.value = today;
+
+        // Gera os horários de 30 em 30 minutos das 09:00 às 20:00
+        const allTimes = [];
+        for (let hour = 9; hour <= 20; hour++) {
+            allTimes.push(`${String(hour).padStart(2, '0')}:00`);
+            if (hour < 20) {
+                allTimes.push(`${String(hour).padStart(2, '0')}:30`);
+            }
+        }
+
+        function updateAvailableTimes() {
+            const timeSelect = document.getElementById('modal-time');
+            const selectedDateStr = dateInput.value;
+            timeSelect.innerHTML = '';
+
+            if (!selectedDateStr) return;
+
+            // Validação de Fuso para pegar o dia correto da semana localmente
+            const [year, month, day] = selectedDateStr.split('-');
+            const selectedDate = new Date(year, month - 1, day);
+            const dayOfWeek = selectedDate.getDay(); // 0 = Domingo, 1 = Segunda-feira
+
+            // Bloqueia Domingo (0) e Segunda-feira (1)
+            if (dayOfWeek === 0 || dayOfWeek === 1) {
+                const opt = document.createElement('option');
+                opt.value = "";
+                opt.textContent = dayOfWeek === 0 ? "Fechado aos domingos" : "Fechado às segundas-feiras";
+                opt.disabled = true;
+                opt.selected = true;
+                timeSelect.appendChild(opt);
+                return;
+            }
+
+            const now = new Date();
+            const isToday = selectedDateStr === now.toISOString().split('T')[0];
+
+            // Adiciona 2 horas ao horário atual para a regra de antecedência
+            const minValidTimeInMinutes = isToday ? (now.getHours() + 2) * 60 + now.getMinutes() : 0;
+
+            let availableCount = 0;
+
+            allTimes.forEach(timeStr => {
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                const slotTimeInMinutes = hours * 60 + minutes;
+
+                // Se for hoje, o horário precisa ser pelo menos 2 horas à frente
+                if (!isToday || slotTimeInMinutes >= minValidTimeInMinutes) {
+                    const opt = document.createElement('option');
+                    opt.value = timeStr;
+                    opt.textContent = `${timeStr} h`;
+                    timeSelect.appendChild(opt);
+                    availableCount++;
+                }
+            });
+
+            if (availableCount === 0) {
+                const opt = document.createElement('option');
+                opt.value = "";
+                opt.textContent = "Nenhum horário disponível para hoje";
+                opt.disabled = true;
+                opt.selected = true;
+                timeSelect.appendChild(opt);
+            }
+        }
+
+        // Inicializa os horários ao carregar a página
+        updateAvailableTimes();
+
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.remove('hidden');
+            updateAvailableTimes(); // Atualiza sempre que abrir
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        function selectServiceAndOpenModal(serviceName, price) {
+            const select = document.getElementById('select-servicos');
+            const targetValue = `${serviceName} (R$ ${price},00)`;
+
+            // Seleciona o serviço correspondente no <select>
+            for (let option of select.options) {
+                if (option.value === targetValue || option.text.includes(serviceName)) {
+                    option.selected = true;
+                    break;
+                }
+            }
+
+            openBookingModal();
+        }
+
+        const CARIOCA_WHATSAPP = "5521995660434";
+
+        function handleModalBookingSubmit(e) {
+            e.preventDefault();
+            const service = document.getElementById('select-servicos').value;
+            const date = document.getElementById('modal-date').value;
+            const time = document.getElementById('modal-time').value;
+            const name = document.getElementById('modal-name').value;
+            const phone = document.getElementById('modal-phone').value;
+
+            // Validação extra no envio caso selecionem um dia bloqueado manualmente
+            const [year, month, day] = date.split('-');
+            const selectedDate = new Date(year, month - 1, day);
+            const dayOfWeek = selectedDate.getDay();
+
+            if (dayOfWeek === 0 || dayOfWeek === 1) {
+                alert('A barbearia está fechada aos domingos e segundas-feiras. Por favor, escolha outra data.');
+                return;
+            }
+
+            if (!time) {
+                alert('Por favor, selecione um horário válido.');
+                return;
+            }
+
+            if (!service) {
+                alert('Por favor, selecione um serviço.');
+                return;
+            }
+
+            const formattedDate = date.split('-').reverse().join('/');
+
+            const message = `Olá Carioca! Gostaria de agendar um horário pelo site:%0A%0A` +
+                `*Cliente:* ${encodeURIComponent(name)}%0A` +
+                `*Contato:* ${encodeURIComponent(phone)}%0A` +
+                `*Serviço:* ${encodeURIComponent(service)}%0A` +
+                `*Data:* ${encodeURIComponent(formattedDate)}%0A` +
+                `*Horário:* ${encodeURIComponent(time)}h%0A%0A` +
+                `Aguardando confirmação!`;
+
+            closeBookingModal();
+            window.open(`https://wa.me/${CARIOCA_WHATSAPP}?text=${message}`, '_blank');
+        }
+
+        async function carregarDadosContato() {
+            try {
+                // 1. Carregar Endereço
+                const resEnd = await fetch('endereco.txt');
+                if (resEnd.ok) {
+                    const textoEndereco = await resEnd.text();
+                    document.getElementById('txt-endereco').innerText = textoEndereco.trim();
+                }
+
+                // 2. Carregar Horário
+                const resHorario = await fetch('horario.txt');
+                if (resHorario.ok) {
+                    const textoHorario = await resHorario.text();
+                    document.getElementById('txt-horario').innerText = textoHorario.trim();
+                }
+
+                // 3. Carregar Coordenadas do loc.txt e inicializar o mapa
+                const resLoc = await fetch('loc.txt');
+                if (resLoc.ok) {
+                    const textoLoc = await resLoc.text();
+                    const [lat, lng] = textoLoc.trim().split(',').map(Number);
+
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        inicializarMapa(lat, lng);
+                    } else {
+                        console.error('Formato inválido em loc.txt. Use: lat,lng');
+                        inicializarMapa(-22.518, -49.986); // Fallback padrão caso dê erro
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar os arquivos de texto:', error);
+            }
+        }
+
+        function inicializarMapa(lat, lng) {
+            // Cria o mapa na div 'openstreetmap'
+            const map = L.map('openstreetmap').setView([lat, lng], 15);
+
+            // Adiciona a camada de tiles do Google Maps Satélite
+            L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                attribution: '&copy; Google Maps'
+            }).addTo(map);
+
+            // Adiciona um marcador no local
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('<b>Onde Encontrar o Carioca</b>')
+                .openPopup();
+        }
+
+        // Executa a função ao carregar a página
+        document.addEventListener('DOMContentLoaded', carregarDadosContato);
+    </script>
+</body>
+
+</html>
