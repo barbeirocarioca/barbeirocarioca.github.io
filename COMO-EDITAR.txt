@@ -1,0 +1,113 @@
+==============================================================
+GUIA DE ADMINISTRACAO DO SITE - BARBEIRO CARIOCA
+==============================================================
+
+Este site e focado no profissional CARIOCA (Barbeiro Especialista & Visagista).
+Como o local ou barbearia onde ele atende pode mudar no futuro, todas as
+informacoes de espaco, endereco e precos estao em arquivos .TXT simples.
+
+Voce so precisa abrir os arquivos .TXT no Bloco de Notas (Notepad),
+fazer a alteracao, salvar o arquivo (Ctrl + S) e atualizar a pagina.
+
+Abaixo estao os arquivos que voce pode editar:
+
+--------------------------------------------------------------
+1. NOME DA BARBEARIA / LOCAL ATUAL (barbearia.txt)
+--------------------------------------------------------------
+Arquivo: barbearia.txt
+
+Como editar:
+Escreva o nome da barbearia ou espaco onde o Carioca esta atendendo atualmente.
+Exemplo:
+Mr. Falcone Barbearia
+
+Caso o Carioca mude de barbearia ou abra seu proprio espaco, basta alterar
+o nome neste arquivo. O site atualizara todas as referencias automaticamente.
+
+--------------------------------------------------------------
+2. PRECOS E SERVICOS (opcoes.txt)
+--------------------------------------------------------------
+Arquivo: opcoes.txt
+
+Como editar:
+Cada linha representa um servico com o nome e o valor.
+Exemplo:
+Corte — R$ 50,00
+Barba — R$ 45,00
+Corte e Barba — R$ 90,00
+
+- Para alterar o preco: basta mudar o valor apos o traco.
+- Para adicionar um novo servico: pule uma linha e escreva no mesmo padrao.
+- Para remover um servico: basta apagar a linha dele.
+O site organiza automaticamente as categorias e calcula o valor no agendamento.
+
+--------------------------------------------------------------
+3. NUMERO DO WHATSAPP (whatsapp.txt)
+--------------------------------------------------------------
+Arquivo: whatsapp.txt
+
+Como editar:
+Basta colocar o DDD e o numero de telefone com WhatsApp, sem espacos.
+Exemplo:
+21995660434
+
+Ao salvar, todos os botoes de agendamento e contato do site passam a
+enviar mensagem para este novo numero automaticamente.
+
+--------------------------------------------------------------
+4. LINK DO GOOGLE MAPS E AVALIACOES (google.txt)
+--------------------------------------------------------------
+Arquivo: google.txt
+
+Como editar:
+Cole o link da barbearia ou perfil no Google Maps com as avaliacoes.
+Exemplo:
+https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012
+
+--------------------------------------------------------------
+5. ENDERECO COMPLETO (endereco.txt)
+--------------------------------------------------------------
+Arquivo: endereco.txt
+
+Como editar:
+Escreva o endereco completo de onde o Carioca atende atualmente.
+Exemplo:
+Rua Benedito Jose Pinheiro, 825 - Em Frente ao Pao de Acucar - Ourinhos/SP
+
+--------------------------------------------------------------
+6. HORARIOS DE ATENDIMENTO (horario.txt)
+--------------------------------------------------------------
+Arquivo: horario.txt
+
+Como editar:
+Escreva os dias e horarios em que o Carioca atende.
+Exemplo:
+Terca a Sabado: 09:00h as 20:00h
+
+--------------------------------------------------------------
+7. COORDENADAS DO MAPA (loc.txt)
+--------------------------------------------------------------
+Arquivo: loc.txt
+
+Como editar:
+Contem a latitude e a longitude para o mapa e para o Waze.
+Exemplo:
+-22.9773743, -49.8849181
+
+--------------------------------------------------------------
+8. AVISO OU COMUNICADO ESPECIAL (aviso.txt)
+--------------------------------------------------------------
+Arquivo: aviso.txt
+
+Como editar:
+Se quiser colocar uma faixa de aviso no topo do site (ex: mudanca de endereco,
+recesso de feriado ou aviso especial), basta escrever a mensagem neste arquivo.
+Exemplo:
+Atendimento normal neste feriado! Agende seu horario com antecedencia.
+
+Se nao quiser exibir nenhum aviso, deixe o arquivo aviso.txt totalmente vazio.
+
+==============================================================
+Duvidas ou problemas:
+Sempre mantenha uma copia de seguranca dos arquivos antes de fazer grandes alteracoes.
+==============================================================
