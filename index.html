@@ -87,20 +87,251 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .glow-button:hover {
+            box-shadow: 0 0 40px rgba(61, 99, 70, 0.55);
+            transform: translateY(-2px);
+        }
+
         .cutout-glow {
             filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.22));
         }
 
-        /* Classes de Animação de Entrada ao Rolar a Página */
+        /* --- Keyframes de Animação --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes photoRise {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 16px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* --- Classes de Animação no Hero --- */
+        .anim-fade-down {
+            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .anim-fade-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .anim-photo-rise {
+            animation: photoRise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+
+        /* Botão Flutuante Pulsante */
+        .pulse-whatsapp {
+            animation: pulseRing 2.4s infinite cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        /* --- Classes de Scroll Reveal Refinado --- */
         .reveal {
             opacity: 0;
-            transform: translateY(28px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-25px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(25px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stagger-1 { transition-delay: 0.08s; }
+        .stagger-2 { transition-delay: 0.16s; }
+        .stagger-3 { transition-delay: 0.24s; }
+        .stagger-4 { transition-delay: 0.32s; }
+        .stagger-5 { transition-delay: 0.40s; }
+
+        /* Micro-interação de Cards */
+        .interactive-card {
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 35px -10px rgba(42, 64, 50, 0.16);
+            border-color: rgba(42, 64, 50, 0.35);
+        }
+
+        /* Efeito de Brilho Elegante nos Botões */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.18) 50%,
+                transparent 70%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.75s ease;
+        }
+
+        .btn-shine:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Header Dinâmico ao Rolar */
+        .glass-capsule {
+            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-capsule.scrolled {
+            background: rgba(18, 28, 22, 0.94);
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.35);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        /* Acordeão com Expansão Suave */
+        .faq-collapse {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .faq-collapse.open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+
+        .faq-inner {
+            overflow: hidden;
+        }
+
+        /* Animação Suave do Modal */
+        #booking-modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #booking-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #booking-modal .modal-content {
+            transform: scale(0.92) translateY(16px);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #booking-modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Acessibilidade: Desacelera se o usuário preferir menos movimento */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         /* Chips de Horário Interativos */
@@ -277,22 +508,33 @@
 
     <!-- HERO SECTION: BRANCO E VERDE MUSGO - CLEAN, ELEGANTE E COM FOTO DIRETO NA DIVISAO -->
     <section id="inicio" class="relative w-full flex items-end justify-center bg-softbg border-b border-gray-200/90 pt-24 sm:pt-28 overflow-hidden">
+
+        <!-- Foto de Fundo no Celular: absoluta, atras do conteudo, so aparece em telas pequenas -->
+        <div class="absolute inset-0 z-0 lg:hidden pointer-events-none select-none">
+            <!-- Gradiente da esquerda para cobrir o texto e deixa-lo legivel -->
+            <div class="absolute inset-0 z-10 bg-gradient-to-r from-softbg via-softbg/80 to-softbg/10"></div>
+            <!-- Gradiente do topo para a barra de navegacao -->
+            <div class="absolute inset-0 z-10 bg-gradient-to-b from-softbg/70 via-transparent to-softbg/40"></div>
+            <img src="carioca.png" alt=""
+                class="anim-photo-rise absolute bottom-0 right-0 h-full w-auto object-contain object-bottom cutout-glow"
+                aria-hidden="true">
+        </div>
         
         <!-- Container Principal: Layout 2 Colunas com Foco Total na Foto Gigante apoiada na divisao -->
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end w-full">
 
-                <!-- Coluna Esquerda: Textos, Titulos e Chamadas de Acao com Layout Clean -->
-                <div class="lg:col-span-6 space-y-6 text-center lg:text-left z-20 pt-4 pb-12 sm:pb-16 lg:pb-20">
+                <!-- Coluna Esquerda: Textos, Titulos e Chamadas de Acao com Layout Clean e Animacoes -->
+                <div class="lg:col-span-6 relative z-10 space-y-6 text-left pt-4 pb-14 sm:pb-20 lg:pb-20">
                     
                     <!-- Selo de Especialidade -->
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-moss-900 border border-moss-600/40 text-white text-[11px] sm:text-xs font-semibold tracking-wider uppercase shadow-md">
+                    <div class="anim-fade-down delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-moss-900 border border-moss-600/40 text-white text-[11px] sm:text-xs font-semibold tracking-wider uppercase shadow-md">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         <span>BARBEIRO ESPECIALISTA &amp; VISAGISTA</span>
                     </div>
 
                     <!-- Titulo Principal Limpo -->
-                    <div class="space-y-1.5">
+                    <div class="anim-fade-up delay-2 space-y-1.5">
                         <h1 class="font-heading font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-charcoal leading-[0.95]">
                             CARIOCA
                         </h1>
@@ -302,52 +544,52 @@
                     </div>
 
                     <!-- Texto Conceitual -->
-                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    <p class="anim-fade-up delay-3 text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
                         O rigor da barbearia classica aliado as mais modernas tecnicas de visagismo masculino. Cada corte e barba sao desenhados sob medida para o formato do seu rosto.
                     </p>
 
                     <!-- Botoes de Acao Direta -->
-                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                    <div class="anim-fade-up delay-4 pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
                         <button onclick="openBookingModal()"
-                            class="glow-button bg-moss-700 hover:bg-moss-800 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-widest px-8 sm:px-10 py-4 rounded-full border border-moss-500/40 flex items-center justify-center gap-3 shadow-xl w-full sm:w-auto">
+                            class="btn-shine glow-button bg-moss-700 hover:bg-moss-800 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-widest px-8 sm:px-10 py-4 rounded-full border border-moss-500/40 flex items-center justify-center gap-3 shadow-xl w-full sm:w-auto active:scale-95 transition-transform">
                             <i class="fa-regular fa-calendar-check text-base"></i>
                             <span>Agendar Horario</span>
                         </button>
 
                         <a href="#servicos"
-                            class="bg-white hover:bg-gray-50 text-charcoal font-heading font-bold text-xs uppercase tracking-widest px-6 py-4 rounded-full border border-gray-300 shadow-sm transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                            class="btn-shine bg-white hover:bg-gray-50 text-charcoal font-heading font-bold text-xs uppercase tracking-widest px-6 py-4 rounded-full border border-gray-300 shadow-sm transition-all flex items-center justify-center gap-2 w-full sm:w-auto active:scale-95">
                             <i class="fa-solid fa-list-check text-moss-700 text-xs"></i>
                             <span>Ver Servicos &amp; Precos</span>
                         </a>
                     </div>
 
-                    <!-- Metricas de Confianca -->
-                    <div class="pt-5 border-t border-gray-200/80 grid grid-cols-3 gap-4 text-center lg:text-left max-w-md mx-auto lg:mx-0">
+                    <!-- Metricas de Confianca com Contadores Animados -->
+                    <div class="anim-fade-up delay-5 pt-5 border-t border-gray-200/80 grid grid-cols-3 gap-4 text-center lg:text-left max-w-md mx-auto lg:mx-0">
                         <div>
-                            <p class="font-heading text-2xl font-black text-charcoal">+8 Anos</p>
+                            <p class="font-heading text-2xl font-black text-charcoal"><span class="counter-number" data-target="8">+0</span> Anos</p>
                             <p class="text-[11px] text-gray-500 uppercase font-semibold mt-0.5">Experiencia</p>
                         </div>
                         <div>
                             <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012"
                                 target="_blank" class="link-google group block cursor-pointer">
                                 <div class="flex items-center justify-center lg:justify-start gap-1 text-amber-500 text-xs mb-1">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
+                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
+                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
+                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
+                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
                                 </div>
                                 <p class="text-[11px] text-gray-500 group-hover:text-moss-700 uppercase font-semibold transition-colors">Nota 5.0 no Google</p>
                             </a>
                         </div>
                         <div>
-                            <p class="font-heading text-2xl font-black text-emerald-600">100%</p>
+                            <p class="font-heading text-2xl font-black text-emerald-600"><span class="counter-number" data-target="100">0</span>%</p>
                             <p class="text-[11px] text-gray-500 uppercase font-semibold mt-0.5">Pontualidade</p>
                         </div>
                     </div>
 
                     <!-- Linha Limpa de Informacoes e Local -->
-                    <div class="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs text-gray-500">
+                    <div class="anim-fade-up delay-6 pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs text-gray-500">
                         <span class="flex items-center gap-1.5">
                             <i class="fa-solid fa-shop text-moss-700"></i>
                             <span>Atendimento no espaco: <strong class="txt-barbearia text-charcoal font-semibold">Mr. Falcone Barbearia</strong></span>
@@ -366,10 +608,10 @@
 
                 </div>
 
-                <!-- Coluna Direita: Foto Gigante com a base apoiada diretamente na linha divisoria -->
-                <div class="lg:col-span-6 flex items-end justify-center lg:justify-end self-end pointer-events-none pb-0">
+                <!-- Coluna Direita: Foto Gigante - oculta no celular, visivel no desktop -->
+                <div class="lg:col-span-6 hidden lg:flex items-end justify-end self-end pointer-events-none pb-0">
                     <img src="carioca.png" alt="Carioca Barbeiro e Visagista"
-                        class="h-[60vh] sm:h-[72vh] md:h-[80vh] lg:h-[86vh] max-h-[820px] w-auto object-contain object-bottom block cutout-glow filter drop-shadow-2xl mx-auto lg:mr-0"
+                        class="anim-photo-rise h-[60vh] sm:h-[72vh] md:h-[80vh] lg:h-[86vh] max-h-[820px] w-auto object-contain object-bottom block cutout-glow filter drop-shadow-2xl mx-auto lg:mr-0"
                         onerror="this.onerror=null; this.src='carioca.png';">
                 </div>
 
@@ -384,15 +626,15 @@
 
                 <div class="lg:col-span-6 space-y-6">
                     <span
-                        class="px-3.5 py-1.5 bg-moss-50 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
+                        class="reveal-item stagger-1 px-3.5 py-1.5 bg-moss-50 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
                         // A Experiência
                     </span>
 
-                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal leading-tight">
+                    <h2 class="reveal-item stagger-2 font-heading text-3xl sm:text-5xl font-extrabold text-charcoal leading-tight">
                         A Arte da Barbearia de Alto Padrão
                     </h2>
 
-                    <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                    <p class="reveal-item stagger-3 text-gray-600 leading-relaxed text-sm sm:text-base">
                         O Carioca une o rigor técnico da barbearia clássica às mais modernas técnicas de corte
                         e visagismo masculino. Cada atendimento é planejado levando em consideração a estrutura
                         facial, o tipo de fio e a rotina de cada cliente, garantindo um visual harmônico e de presença marcante.
@@ -400,25 +642,25 @@
 
                     <!-- Diferenciais em Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                        <div class="reveal-item stagger-1 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
                             <i class="fa-solid fa-scissors text-moss-700 text-xl mb-2"></i>
                             <h4 class="font-heading font-bold text-charcoal text-sm">Visagismo Personalizado</h4>
                             <p class="text-xs text-gray-500 mt-1">Corte e barba desenhados sob medida para valorizar os traços do seu rosto.</p>
                         </div>
 
-                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                        <div class="reveal-item stagger-2 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
                             <i class="fa-solid fa-clock-rotate-left text-moss-700 text-xl mb-2"></i>
                             <h4 class="font-heading font-bold text-charcoal text-sm">Pontualidade Absoluta</h4>
                             <p class="text-xs text-gray-500 mt-1">Respeito rigoroso aos horários agendados, sem atrasos desnecessários.</p>
                         </div>
 
-                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                        <div class="reveal-item stagger-3 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
                             <i class="fa-solid fa-wand-magic-sparkles text-moss-700 text-xl mb-2"></i>
                             <h4 class="font-heading font-bold text-charcoal text-sm">Produtos Premium</h4>
                             <p class="text-xs text-gray-500 mt-1">Cosméticos específicos para cuidado capilar e barboterapia de alta eficácia.</p>
                         </div>
 
-                        <div class="p-5 rounded-2xl bg-softbg border border-gray-200/80">
+                        <div class="reveal-item stagger-4 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
                             <i class="fa-solid fa-couch text-moss-700 text-xl mb-2"></i>
                             <h4 class="font-heading font-bold text-charcoal text-sm">Ambiente Confortável</h4>
                             <p class="text-xs text-gray-500 mt-1">Espaço climatizado, café de cortesia e música ambiente selecionada.</p>
@@ -556,7 +798,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                <div class="reveal-item stagger-1 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex text-amber-400 text-xs">
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
@@ -579,7 +821,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                <div class="reveal-item stagger-2 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex text-amber-400 text-xs">
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
@@ -602,7 +844,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
+                <div class="reveal-item stagger-3 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex text-amber-400 text-xs">
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
@@ -883,10 +1125,9 @@
 
     <!-- MODAL DE AGENDAMENTO -->
     <div id="booking-modal"
-        class="fixed inset-0 z-50 bg-charcoal/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        class="fixed inset-0 z-50 bg-charcoal/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
         
-        <div
-            class="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-5 sm:p-8 relative border border-gray-100 my-auto max-h-[92vh] overflow-y-auto">
+        <div class="modal-content bg-white w-full max-w-lg rounded-3xl shadow-2xl p-5 sm:p-8 relative border border-gray-100 my-auto max-h-[92vh] overflow-y-auto">
 
             <!-- Botão de Fechar -->
             <button onclick="closeBookingModal()" aria-label="Fechar modal"
@@ -1392,7 +1633,9 @@
 
         // --- Funções de Abertura e Fechamento do Modal ---
         function openBookingModal() {
-            document.getElementById('booking-modal').classList.remove('hidden');
+            const modal = document.getElementById('booking-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
             const dateInput = document.getElementById('modal-date');
             
             const today = new Date().toISOString().split('T')[0];
@@ -1405,7 +1648,9 @@
         }
 
         function closeBookingModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function selecionarServicoEAgendar(servicoId) {
@@ -1809,7 +2054,7 @@
         }
 
         // --- Scroll Reveal Animation ---
-        const observer = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
@@ -1817,7 +2062,50 @@
             });
         }, { threshold: 0.08 });
 
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        document.querySelectorAll('.reveal, .reveal-item, .reveal-left, .reveal-right').forEach((el) => revealObserver.observe(el));
+
+        // --- Header scroll: adiciona classe 'scrolled' para escurecer ao rolar ---
+        window.addEventListener('scroll', () => {
+            const capsule = document.querySelector('.glass-capsule');
+            if (capsule) {
+                if (window.scrollY > 60) {
+                    capsule.classList.add('scrolled');
+                } else {
+                    capsule.classList.remove('scrolled');
+                }
+            }
+        }, { passive: true });
+
+        // --- Contador Animado de Numeros (hero) ---
+        function animarContadores() {
+            document.querySelectorAll('.counter-number').forEach(el => {
+                const target = parseInt(el.dataset.target, 10);
+                const prefix = el.textContent.startsWith('+') ? '+' : '';
+                let start = 0;
+                const duration = 1200;
+                const step = target / (duration / 16);
+                const timer = setInterval(() => {
+                    start += step;
+                    if (start >= target) {
+                        start = target;
+                        clearInterval(timer);
+                    }
+                    el.textContent = prefix + Math.round(start);
+                }, 16);
+            });
+        }
+
+        // Aciona contadores quando o hero entra na tela
+        const heroSection = document.getElementById('inicio');
+        if (heroSection) {
+            const heroObs = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setTimeout(animarContadores, 400);
+                    heroObs.disconnect();
+                }
+            }, { threshold: 0.3 });
+            heroObs.observe(heroSection);
+        }
 
         // --- Inicialização ao Carregar a Página ---
         document.addEventListener('DOMContentLoaded', () => {
