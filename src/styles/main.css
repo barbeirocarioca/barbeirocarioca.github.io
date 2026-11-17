@@ -1,53 +1,50 @@
-/* Custom CSS Padrao: Branco, Verde Musgo e Glassmorphism Refinado */
-.glass-panel {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-left: 1px solid rgba(255, 255, 255, 0.4);
-    border-right: 1px solid rgba(255, 255, 255, 0.4);
-}
+/* Custom CSS Minimalista: Branco & Verde Musgo de Alto Padrao */
 
 .glass-capsule {
-    background: rgba(18, 28, 22, 0.85);
+    background: rgba(255, 255, 255, 0.90);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(42, 64, 50, 0.12);
+    box-shadow: 0 10px 30px -10px rgba(42, 64, 50, 0.08);
     transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-capsule.scrolled {
-    background: rgba(18, 28, 22, 0.94);
-    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.35);
-    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 14px 35px -8px rgba(42, 64, 50, 0.15);
+    border-color: rgba(42, 64, 50, 0.22);
 }
 
 .glass-card {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(42, 64, 50, 0.12);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #ffffff;
+    border: 1px solid rgba(42, 64, 50, 0.10);
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.04);
+    transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-    border-color: rgba(42, 64, 50, 0.35);
+    border-color: rgba(42, 64, 50, 0.30);
     transform: translateY(-3px);
-    box-shadow: 0 20px 40px -15px rgba(42, 64, 50, 0.12);
+    box-shadow: 0 16px 35px -12px rgba(42, 64, 50, 0.12);
 }
 
 .glow-button {
-    box-shadow: 0 0 25px rgba(42, 64, 50, 0.35);
+    box-shadow: 0 4px 20px rgba(42, 64, 50, 0.25);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glow-button:hover {
-    box-shadow: 0 0 40px rgba(61, 99, 70, 0.55);
+    box-shadow: 0 6px 28px rgba(42, 64, 50, 0.38);
     transform: translateY(-2px);
 }
 
 .cutout-glow {
-    filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.22));
+    filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.15));
+}
+
+.logo-dark {
+    filter: brightness(0.15);
+    transition: filter 0.2s ease;
 }
 
 /* --- Keyframes de Animacao --- */
@@ -59,7 +56,7 @@
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -70,7 +67,7 @@
 @keyframes fadeInDown {
     from {
         opacity: 0;
-        transform: translateY(-16px);
+        transform: translateY(-14px);
     }
     to {
         opacity: 1;
@@ -81,7 +78,7 @@
 @keyframes photoRise {
     from {
         opacity: 0;
-        transform: translateY(35px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
@@ -91,46 +88,46 @@
 
 @keyframes pulseRing {
     0% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+        box-shadow: 0 0 0 0 rgba(42, 64, 50, 0.4);
     }
     70% {
-        box-shadow: 0 0 0 16px rgba(16, 185, 129, 0);
+        box-shadow: 0 0 0 14px rgba(42, 64, 50, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        box-shadow: 0 0 0 0 rgba(42, 64, 50, 0);
     }
 }
 
 @keyframes cardEntrance {
     from {
         opacity: 0;
-        transform: translateY(18px) scale(0.98);
+        transform: translateY(16px);
     }
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
 /* --- Classes de Animacao no Hero --- */
 .anim-fade-down {
-    animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: fadeInDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .anim-fade-up {
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .anim-photo-rise {
-    animation: photoRise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: photoRise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
-.delay-4 { animation-delay: 0.4s; }
-.delay-5 { animation-delay: 0.5s; }
-.delay-6 { animation-delay: 0.6s; }
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+.delay-5 { animation-delay: 0.40s; }
+.delay-6 { animation-delay: 0.48s; }
 
 /* Botao Flutuante Pulsante */
 .pulse-whatsapp {
@@ -140,8 +137,8 @@
 /* --- Classes de Scroll Reveal Refinado --- */
 .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(20px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
@@ -152,8 +149,8 @@
 
 .reveal-item {
     opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(18px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
@@ -164,8 +161,8 @@
 
 .reveal-left {
     opacity: 0;
-    transform: translateX(-25px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
@@ -176,8 +173,8 @@
 
 .reveal-right {
     opacity: 0;
-    transform: translateX(25px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
@@ -186,21 +183,21 @@
     transform: translateX(0);
 }
 
-.stagger-1 { transition-delay: 0.08s; }
-.stagger-2 { transition-delay: 0.16s; }
-.stagger-3 { transition-delay: 0.24s; }
-.stagger-4 { transition-delay: 0.32s; }
-.stagger-5 { transition-delay: 0.40s; }
+.stagger-1 { transition-delay: 0.06s; }
+.stagger-2 { transition-delay: 0.12s; }
+.stagger-3 { transition-delay: 0.18s; }
+.stagger-4 { transition-delay: 0.24s; }
+.stagger-5 { transition-delay: 0.30s; }
 
 /* Micro-interacao de Cards */
 .interactive-card {
-    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .interactive-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 35px -10px rgba(42, 64, 50, 0.16);
-    border-color: rgba(42, 64, 50, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -10px rgba(42, 64, 50, 0.12);
+    border-color: rgba(42, 64, 50, 0.30);
 }
 
 /* Efeito de Brilho Elegante nos Botoes */
@@ -234,7 +231,7 @@
 .faq-collapse {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    transition: grid-template-rows 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
     opacity: 0;
 }
 
@@ -251,7 +248,7 @@
 #booking-modal {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #booking-modal.active {
@@ -260,8 +257,8 @@
 }
 
 #booking-modal .modal-content {
-    transform: scale(0.92) translateY(16px);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.94) translateY(14px);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #booking-modal.active .modal-content {
@@ -270,7 +267,7 @@
 
 /* Chips de Horario Interativos */
 .time-chip {
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
 }
 
 .time-chip:hover:not(:disabled) {
@@ -284,7 +281,7 @@
     background-color: #2A4032 !important;
     color: #ffffff !important;
     border-color: #2A4032 !important;
-    box-shadow: 0 4px 12px rgba(42, 64, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(42, 64, 50, 0.25);
 }
 
 .time-chip:disabled {
@@ -348,4 +345,3 @@
         transition-duration: 0.01ms !important;
     }
 }
-

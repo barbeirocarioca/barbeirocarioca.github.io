@@ -40,20 +40,20 @@ export function atualizarStatusEmTempoReal(): void {
     const textMobile = badgeMobile?.querySelector('.status-text');
 
     if (status.aberto) {
-        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-emerald-950/80 border-emerald-500/40 text-emerald-300';
-        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-emerald-50 border-emerald-200 text-emerald-900';
+        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
         if (textHeader) textHeader.textContent = status.mensagem;
 
-        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-emerald-950/80 border-emerald-500/40 text-emerald-300 mx-auto';
-        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-emerald-50 border-emerald-200 text-emerald-900 mx-auto';
+        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
         if (textMobile) textMobile.textContent = status.mensagem;
     } else {
-        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-rose-950/80 border-rose-500/40 text-rose-300';
-        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-rose-400';
+        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-rose-50 border-rose-200 text-rose-900';
+        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-rose-500';
         if (textHeader) textHeader.textContent = status.mensagem;
 
-        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-rose-950/80 border-rose-500/40 text-rose-300 mx-auto';
-        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-rose-400';
+        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-rose-50 border-rose-200 text-rose-900 mx-auto';
+        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-rose-500';
         if (textMobile) textMobile.textContent = status.mensagem;
     }
 }
