@@ -6,8 +6,9 @@ Este site e focado no profissional CARIOCA (Barbeiro Especialista & Visagista).
 Como o local ou barbearia onde ele atende pode mudar no futuro, todas as
 informacoes de espaco, endereco e precos estao em arquivos .TXT simples.
 
-Voce so precisa abrir os arquivos .TXT no Bloco de Notas (Notepad),
+Voce so precisa abrir os arquivos .TXT localizados na pasta "public/" (ou na raiz) no Bloco de Notas (Notepad),
 fazer a alteracao, salvar o arquivo (Ctrl + S) e atualizar a pagina.
+Se estiver editando direto pelo site do GitHub, basta abrir o arquivo .txt desejado dentro da pasta public/ e clicar no lapis de edicao. O site compila e publica a atualizacao automaticamente.
 
 Abaixo estao os arquivos que voce pode editar:
 
