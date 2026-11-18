@@ -10,4 +10,3 @@
 # Outra Parceria
 Mr. Falcone Barbearia | assets/brands/mrfalcone.png | https://www.instagram.com/mr.falconebarbearia/
 João Latczuk | assets/brands/jl.svg | https://www.instagram.com/joaolatczuk/
-SkyFit Ourinhos | assets/brands/skyfitourinhos.png | https://www.instagram.com/skyfitourinhos/
