@@ -1,40 +1,38 @@
 import { configApp } from './dataLoader';
 
-declare const L: any;
+/**
+ * Mapa do Google Maps incorporado (iframe), sem chave de API, com um unico ponto.
+ *  1. Se o link do google.txt tiver o codigo do local (CID), abre exatamente aquela ficha do Google.
+ *     (Buscar pelo nome mostrava duas fichas: "MR. FALCONE BARBEARIA" e "Barbearia Mr. Falcone".)
+ *  2. Senao, marca as coordenadas do loc.txt.
+ */
+function cidDoLinkGoogle(url: string): string | null {
+    // ...!1s0x94c019c25443e6bf:0x5f445b1142552958!... -> o segundo numero e o CID do local
+    const m = url.match(/!1s0x[0-9a-f]+:(0x[0-9a-f]+)/i) || url.match(/[?&]cid=(\d+)/);
+    if (!m) return null;
+    try {
+        return m[1].startsWith('0x') ? BigInt(m[1]).toString() : m[1];
+    } catch {
+        return null;
+    }
+}
 
 export function inicializarMapa(lat: number, lng: number): void {
     const mapContainer = document.getElementById('openstreetmap');
     if (!mapContainer) return;
 
-    if (typeof L === 'undefined') {
-        console.warn('Leaflet nao carregado ainda.');
-        return;
-    }
+    const cid = cidDoLinkGoogle(configApp.googleMapsUrl || '');
+    const src = cid
+        ? `https://maps.google.com/maps?cid=${cid}&z=17&hl=pt-BR&output=embed`
+        : `https://maps.google.com/maps?q=${lat},${lng}&z=17&hl=pt-BR&output=embed`;
 
-    try {
-        const map = L.map('openstreetmap').setView([lat, lng], 16);
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.title = `Mapa: ${configApp.barbeariaNome || 'local de atendimento'} no Google Maps`;
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.allowFullscreen = true;
+    iframe.className = 'map-embed';
 
-        L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            attribution: '&copy; Google Maps'
-        }).addTo(map);
-
-        const customPopup = `
-            <div class="text-center font-sans p-1">
-                <strong class="font-bold text-xs text-charcoal block">Carioca — Barbeiro Especialista &amp; Visagista</strong>
-                <span class="text-[11px] text-gray-700 block mt-0.5">Espaço atual: <strong class="txt-barbearia">${configApp.barbeariaNome}</strong></span>
-                <span class="text-[10px] text-gray-500 block">Em frente ao Pão de Açúcar</span>
-                <button type="button" onclick="window.abrirGoogleMaps()" class="mt-2 px-3 py-1 bg-moss-700 text-white text-[10px] rounded-lg font-bold uppercase tracking-wider">
-                    Ver Rota
-                </button>
-            </div>
-        `;
-
-        L.marker([lat, lng], { title: configApp.barbeariaNome, alt: configApp.barbeariaNome }).addTo(map)
-            .bindPopup(customPopup);
-    } catch (err) {
-        console.warn('Erro ao inicializar mapa:', err);
-    }
+    mapContainer.replaceChildren(iframe);
 }
-

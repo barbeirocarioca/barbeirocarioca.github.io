@@ -418,10 +418,6 @@ body { font-size: 16px; line-height: 1.6; }
     transform: rotate(45deg);
 }
 
-/* Leaflet abaixo do header */
-.leaflet-pane, .leaflet-top, .leaflet-bottom { z-index: 5 !important; }
-.leaflet-control-attribution { font-size: 12px !important; color: var(--ink) !important; background: rgba(255, 255, 255, 0.9) !important; }
-.leaflet-control-attribution a { color: var(--ink) !important; }
 
 /* Movimento reduzido: tudo em repouso, nada escondido */
 @media (prefers-reduced-motion: reduce) {
@@ -486,8 +482,6 @@ a.link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; bo
 .pay-icons { display: flex; gap: 12px; margin-top: 12px; }
 .pay-tile { width: 96px; height: 60px; background: #fff; }
 .pay-tile img { max-height: 30px; }
-/* Botoes de zoom do mapa com area de toque de 44px */
-.leaflet-touch .leaflet-bar a { width: 44px !important; height: 44px !important; line-height: 44px !important; }
 @media (max-width: 767px) { #faq { min-height: 100vh; min-height: 100svh; } }
 .pay-tile { flex: 1 1 0; min-width: 0; max-width: 96px; }
 .pay-tile img { max-width: 80%; height: auto; }
@@ -634,3 +628,7 @@ a.partner:hover .partner__logo { transform: scale(1.05); }
 
 /* contagem de horarios por turno, como no AppBarber */
 .chip-group-label[data-count]::after { content: " · " attr(data-count); text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+/* Google Maps incorporado */
+.map-frame { position: relative; background: var(--surface); }
+.map-embed { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
