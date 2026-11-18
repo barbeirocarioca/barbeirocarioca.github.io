@@ -1,4 +1,4 @@
-import { SERVICOS_DATA, ADICIONAIS_DISPONIVEIS, configApp } from './dataLoader';
+import { SERVICOS_DATA, ADICIONAIS_DISPONIVEIS, configApp, adicionaisParaServico } from './dataLoader';
 import { mostrarToast } from './animations';
 
 export let selectedHorario: string | null = null;
@@ -31,8 +31,12 @@ export function closeBookingModal(): void {
     const modal = document.getElementById('booking-modal');
     if (!modal) return;
 
-    modal.classList.remove('active');
+    if (!modal.classList.contains('active')) return;
     document.body.style.overflow = '';
+    modal.classList.add('is-closing');
+    window.setTimeout(() => {
+        modal.classList.remove('active', 'is-closing');
+    }, 120);
 }
 
 export function selecionarServicoEAgendar(servicoId: string): void {
@@ -115,7 +119,7 @@ export function updateAvailableTimes(): void {
 
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'time-chip py-1.5 px-2 rounded-xl text-xs font-bold border border-gray-200 bg-white text-gray-700';
+        btn.className = 'time-chip min-h-[40px] px-2 text-sm font-medium border border-charcoal/15 bg-white text-charcoal';
         btn.textContent = timeStr;
 
         if (isPast) {
@@ -145,26 +149,62 @@ export function inicializarModalCampos(): void {
         select.appendChild(opt);
     });
 
+    servicoDosAdicionais = null;
+    atualizarResumoReserva();
+}
+
+let servicoDosAdicionais: string | null = null;
+
+/** Monta os adicionais oferecidos para o servico principal escolhido. */
+function renderizarAdicionais(servicoId: string): void {
     const addonsContainer = document.getElementById('modal-addons-container');
+    const hint = document.getElementById('modal-addons-hint');
     if (!addonsContainer) return;
 
+    const servico = SERVICOS_DATA.find(s => s.id === servicoId);
+    const marcados = new Set(
+        [...addonsContainer.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')].map(cb => cb.value)
+    );
+    const opcoes = adicionaisParaServico(servico);
+
     addonsContainer.innerHTML = '';
-    ADICIONAIS_DISPONIVEIS.forEach(add => {
+
+    if (hint) {
+        hint.textContent = servico
+            ? (opcoes.length ? `Combinam com ${servico.nome}:` : `${servico.nome} já inclui tudo o que oferecemos como adicional.`)
+            : '';
+    }
+
+    opcoes.forEach(add => {
         const item = document.createElement('label');
-        item.className = 'flex items-center gap-2.5 p-2 bg-white rounded-xl border border-gray-200/80 cursor-pointer hover:border-moss-600 transition-colors text-xs text-charcoal select-none';
+        item.className = 'addon-item flex items-center gap-2.5 p-2.5 bg-white border border-charcoal/10 cursor-pointer hover:border-moss-600 transition-colors text-sm text-charcoal select-none';
         item.innerHTML = `
-            <input type="checkbox" value="${add.id}" class="custom-checkbox">
+            <input type="checkbox" value="${add.id}" data-parte="${add.componentes[0]}" class="custom-checkbox">
             <span class="font-medium">${add.nome}</span>
-            <span class="text-moss-700 font-bold ml-auto">+ R$ ${add.preco.toFixed(2).replace('.', ',')}</span>
+            <span class="text-moss-700 font-medium ml-auto whitespace-nowrap">+ R$ ${add.preco.toFixed(2).replace('.', ',')}</span>
         `;
         const cb = item.querySelector('input');
         if (cb) {
-            cb.addEventListener('change', atualizarResumoReserva);
+            cb.checked = marcados.has(add.id);
+            cb.addEventListener('change', () => {
+                // alternativas: marcar uma desmarca a outra
+                // (as duas sobrancelhas; corte e pezinho, porque o corte ja faz o contorno)
+                const grupos = [['sobrancelha', 'sobrancelha-navalha'], ['corte', 'pezinho']];
+                const parte = cb.dataset.parte || '';
+                const grupo = grupos.find(g => g.includes(parte));
+                if (cb.checked && grupo) {
+                    addonsContainer.querySelectorAll<HTMLInputElement>('input[data-parte]').forEach(o => {
+                        if (o !== cb && grupo.includes(o.dataset.parte || '')) o.checked = false;
+                    });
+                }
+                atualizarResumoReserva();
+            });
         }
         addonsContainer.appendChild(item);
     });
 
-    atualizarResumoReserva();
+    addonsContainer.classList.toggle('hidden', opcoes.length === 0);
+    servicoDosAdicionais = servicoId;
 }
 
 export function atualizarResumoReserva(): void {
@@ -175,6 +215,8 @@ export function atualizarResumoReserva(): void {
     const servicoPrincipal = SERVICOS_DATA.find(s => s.id === mainServiceId) || SERVICOS_DATA[0];
 
     if (!servicoPrincipal) return;
+
+    if (servicoDosAdicionais !== servicoPrincipal.id) renderizarAdicionais(servicoPrincipal.id);
 
     let valorTotal = servicoPrincipal.preco;
     let duracaoTotal = servicoPrincipal.duracao;

@@ -1,0 +1,13 @@
+# PARCERIAS DO CARIOCA (carrossel infinito do site)
+# Uma parceria por linha:   Nome | logo | link
+#  - logo (opcional): nome de um arquivo em public/parceiros/ (ex.: falcone.png), um caminho a partir de public/ (ex.: assets/brands/mrfalcone.png) ou um endereco https://
+#    sem logo, o site mostra as iniciais do parceiro num circulo
+#  - link (opcional): site ou Instagram do parceiro (https://...)
+# Linhas que comecam com # sao ignoradas. Apague todas as parcerias para esconder a secao.
+#
+# Exemplos:
+# Nome da Marca | marca.png | https://instagram.com/marca
+# Outra Parceria
+Mr. Falcone Barbearia | assets/brands/mrfalcone.png | https://www.instagram.com/mr.falconebarbearia/
+João Latczuk | assets/brands/jl.svg | https://www.instagram.com/joaolatczuk/
+SkyFit Ourinhos | assets/brands/skyfitourinhos.png | https://www.instagram.com/skyfitourinhos/

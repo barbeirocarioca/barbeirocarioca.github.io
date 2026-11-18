@@ -31,9 +31,8 @@ export function inicializarMapa(lat: number, lng: number): void {
             </div>
         `;
 
-        L.marker([lat, lng]).addTo(map)
-            .bindPopup(customPopup)
-            .openPopup();
+        L.marker([lat, lng], { title: configApp.barbeariaNome, alt: configApp.barbeariaNome }).addTo(map)
+            .bindPopup(customPopup);
     } catch (err) {
         console.warn('Erro ao inicializar mapa:', err);
     }

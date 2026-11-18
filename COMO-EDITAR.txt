@@ -112,3 +112,21 @@ Se nao quiser exibir nenhum aviso, deixe o arquivo aviso.txt totalmente vazio.
 Duvidas ou problemas:
 Sempre mantenha uma copia de seguranca dos arquivos antes de fazer grandes alteracoes.
 ==============================================================
+
+--------------------------------------------------------------
+PARCERIAS (parcerias.txt) - carrossel infinito
+--------------------------------------------------------------
+Arquivo: parcerias.txt
+
+Como editar:
+Uma parceria por linha, no formato:  Nome | logo | link
+- O logo e opcional: coloque o arquivo de imagem na pasta public/parceiros/
+  e escreva so o nome do arquivo (ex.: marca.png). Sem logo, o site mostra
+  as iniciais do parceiro num circulo verde.
+- O link e opcional: site ou Instagram do parceiro (https://...).
+Exemplo:
+Mr. Falcone Barbearia
+Nome da Marca | marca.png | https://instagram.com/marca
+
+Linhas que comecam com # sao ignoradas. Se nao houver nenhuma parceria,
+a secao some do site automaticamente.

@@ -14,13 +14,13 @@ export function verificarStatusFuncionamento(date: Date = new Date()): StatusFun
     if (isOpen) {
         return {
             aberto: true,
-            mensagem: 'Aberto agora • Fecha às 20h'
+            mensagem: 'Aberto agora, fecha às 20h'
         };
     }
 
-    let mensagem = 'Fechado agora • Abre às 09:00';
-    if (day === 0) mensagem = 'Fechado hoje • Abre terça às 09h';
-    if (day === 1) mensagem = 'Fechado hoje • Abre amanhã às 09h';
+    let mensagem = 'Fechado agora, abre às 9h';
+    if (day === 0) mensagem = 'Fechado hoje, abre terça às 9h';
+    if (day === 1) mensagem = 'Fechado hoje, abre amanhã às 9h';
 
     return {
         aberto: false,
@@ -30,31 +30,18 @@ export function verificarStatusFuncionamento(date: Date = new Date()): StatusFun
 
 export function atualizarStatusEmTempoReal(): void {
     const status = verificarStatusFuncionamento();
+    const estado = status.aberto ? 'is-open' : 'is-closed';
 
     const badgeHeader = document.getElementById('live-status-header');
-    const dotHeader = document.getElementById('live-status-dot');
     const textHeader = document.getElementById('live-status-text');
-
     const badgeMobile = document.getElementById('mobile-live-status');
-    const dotMobile = badgeMobile?.querySelector('.status-dot');
     const textMobile = badgeMobile?.querySelector('.status-text');
 
-    if (status.aberto) {
-        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-emerald-50 border-emerald-200 text-emerald-900';
-        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
-        if (textHeader) textHeader.textContent = status.mensagem;
-
-        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-emerald-50 border-emerald-200 text-emerald-900 mx-auto';
-        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
-        if (textMobile) textMobile.textContent = status.mensagem;
-    } else {
-        if (badgeHeader) badgeHeader.className = 'hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border bg-rose-50 border-rose-200 text-rose-900';
-        if (dotHeader) dotHeader.className = 'w-2 h-2 rounded-full bg-rose-500';
-        if (textHeader) textHeader.textContent = status.mensagem;
-
-        if (badgeMobile) badgeMobile.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border bg-rose-50 border-rose-200 text-rose-900 mx-auto';
-        if (dotMobile) dotMobile.className = 'w-2 h-2 rounded-full bg-rose-500';
-        if (textMobile) textMobile.textContent = status.mensagem;
-    }
+    [badgeHeader, badgeMobile].forEach(b => {
+        if (!b) return;
+        b.classList.remove('is-open', 'is-closed');
+        b.classList.add(estado);
+    });
+    if (textHeader) textHeader.textContent = status.mensagem;
+    if (textMobile) textMobile.textContent = status.mensagem;
 }
-

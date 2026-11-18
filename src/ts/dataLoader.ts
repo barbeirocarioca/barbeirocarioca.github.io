@@ -134,15 +134,65 @@ export async function carregarServicosDeTxt(): Promise<void> {
         ];
     }
 
-    ADICIONAIS_DISPONIVEIS = SERVICOS_DATA.filter(s => {
-        const n = s.nome.toLowerCase();
-        return s.preco <= 30 || s.categoria === 'acabamento' || n.includes('tintura da barba') || n.includes('sobrancelha') || n.includes('pezinho') || n.includes('depilação');
-    }).map(s => ({
-        id: s.id,
-        nome: s.nome,
-        preco: s.preco,
-        duracao: s.duracao
-    }));
+    // Adicionais: todo servico simples (uma parte so): Corte, Barba, Pezinho, tinturas e acabamentos.
+    ADICIONAIS_DISPONIVEIS = SERVICOS_DATA
+        .map(s => ({ s, partes: componentesDoServico(s.nome) }))
+        .filter(({ partes }) => partes.length === 1)
+        .map(({ s, partes }) => ({
+            id: s.id,
+            nome: s.nome,
+            preco: s.preco,
+            duracao: s.duracao,
+            componentes: partes
+        }));
+}
+
+/**
+ * Le o nome do servico e devolve as partes que ele contem.
+ * Ex.: "Corte, Barba, Tintura da Barba e do Cabelo" -> corte, barba, tintura-barba, tintura-cabelo
+ */
+export function componentesDoServico(nome: string): string[] {
+    const n = nome.toLowerCase();
+    const partes = new Set<string>();
+
+    const temTinturaBarba = /tintura da barba/.test(n) || /barba e tintura/.test(n);
+    const temTinturaCabelo = /tintura d[eo] cabelo/.test(n) || /e do cabelo/.test(n);
+    if (temTinturaBarba) partes.add('tintura-barba');
+    if (temTinturaCabelo) partes.add('tintura-cabelo');
+
+    // "barba" como servico, sem contar a palavra dentro de "tintura da barba"
+    if (/barba/.test(n.replace(/tintura da barba/g, ''))) partes.add('barba');
+    if (/corte/.test(n)) partes.add('corte');
+    if (/sobrancelha/.test(n)) partes.add(/navalha/.test(n) ? 'sobrancelha-navalha' : 'sobrancelha');
+    if (/pezinho/.test(n)) partes.add('pezinho');
+    if (/penteado/.test(n)) partes.add('penteado');
+    if (/depila/.test(n) && /nariz/.test(n)) partes.add('depilacao-nariz');
+    if (/depila/.test(n) && /ouvido/.test(n)) partes.add('depilacao-ouvido');
+
+    return [...partes];
+}
+
+/** Adicionais que fazem sentido para o servico principal escolhido. */
+export function adicionaisParaServico(servico: Servico | undefined): Adicional[] {
+    if (!servico) return [];
+    const principal = new Set(componentesDoServico(servico.nome));
+
+    return ADICIONAIS_DISPONIVEIS.filter(add => {
+        if (add.id === servico.id) return false;
+        // ja incluido no servico principal
+        if (add.componentes.every(c => principal.has(c))) return false;
+
+        const parte = add.componentes[0];
+        switch (parte) {
+            case 'pezinho':
+                return !principal.has('corte');         // o corte ja inclui o contorno
+            case 'sobrancelha':
+            case 'sobrancelha-navalha':
+                return !principal.has('sobrancelha') && !principal.has('sobrancelha-navalha');
+            default:
+                return true;                            // corte, barba, tinturas, penteado, depilacoes
+        }
+    });
 }
 
 export async function carregarWhatsApp(): Promise<void> {

@@ -1,5 +1,7 @@
 import './styles/main.css';
 
+import { carregarParcerias } from './ts/parcerias';
+
 import {
     carregarDadosDoServidor
 } from './ts/dataLoader';
@@ -103,6 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderizarServicos('todos');
     inicializarModalCampos();
     initAnimations();
+    carregarParcerias();
 
     // Status Aberto/Fechado
     atualizarStatusEmTempoReal();

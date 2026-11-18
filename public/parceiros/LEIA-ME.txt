@@ -1,0 +1,1 @@
+Coloque aqui os logos dos parceiros (png, svg ou webp) e use o nome do arquivo em parcerias.txt.

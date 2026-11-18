@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<!-- deal: place · palette: marca do cliente (verde musgo #2A4032) sobre pedra quente, perto de clay-pine ·
+     type: work-sans · radius: square · moment: word-highlight (a frase do Carioca) · hero: place split com recorte -->
+<html lang="pt-BR" data-type="place" data-radius="sharp" data-buttons="solid" data-motion>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carioca — Barbeiro Especialista &amp; Visagista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Carioca: corte, barba e visagismo em Ourinhos</title>
+    <meta name="description" content="Corte, barba e visagismo com o Carioca na Mr. Falcone Barbearia, Jardim Tropical, Ourinhos. Terça a sábado, das 9h às 20h. Agende pelo site ou WhatsApp.">
+    <meta name="site-kind" content="other">
+    <meta name="page-type" content="place">
+    <meta name="page-kind" content="place">
+    <meta name="theme-color" content="#2A4032">
+    <meta property="og:title" content="Carioca: corte, barba e visagismo em Ourinhos">
+    <meta property="og:description" content="Corte, barba e visagismo na Mr. Falcone Barbearia, Jardim Tropical. Agende seu horário online.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="carioca.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Google Fonts: Plus Jakarta Sans & Montserrat -->
+    <!-- Google Fonts: Work Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,907 +38,504 @@
                 extend: {
                     colors: {
                         moss: {
-                            50: '#f2f6f3',
-                            100: '#e1ebe3',
-                            200: '#c5d7c9',
-                            300: '#9ebca5',
-                            400: '#739c7c',
-                            500: '#527e5c',
-                            600: '#3d6346',
-                            700: '#2A4032',
-                            800: '#233429',
-                            900: '#1c2b22',
+                            50: '#eef2ee', 100: '#dfe7e0', 200: '#c3d2c6', 300: '#9ebca5', 400: '#739c7c',
+                            500: '#527e5c', 600: '#3d6346', 700: '#2A4032', 800: '#233429', 900: '#1a261e',
                         },
-                        charcoal: '#111613',
-                        softbg: '#FAFAFA'
+                        charcoal: '#1c211d',
+                        softbg: '#f2eee7',
+                        stone: '#e6e0d5',
+                        muted: '#464b45'
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        heading: ['Montserrat', 'sans-serif'],
+                        sans: ['Work Sans', 'system-ui', 'sans-serif'],
+                        heading: ['Work Sans', 'system-ui', 'sans-serif'],
+                    },
+                    maxWidth: {
+                        lg: '40rem'
+                    },
+                    transitionDuration: { 700: '700ms' },
+                    keyframes: {
+                        marquee: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
+                        'marquee-reverse': { from: { transform: 'translateX(-50%)' }, to: { transform: 'translateX(0)' } }
+                    },
+                    animation: {
+                        marquee: 'marquee var(--marquee-dur, 50s) linear infinite',
+                        'marquee-reverse': 'marquee-reverse var(--marquee-dur, 50s) linear infinite'
+                    },
+                    borderRadius: {
+                        sm: '2px', DEFAULT: '3px', md: '4px', lg: '4px', xl: '4px', '2xl': '4px', '3xl': '4px'
                     }
                 }
-            }
+            },
+            plugins: [
+                function ({ addVariant }) {
+                    addVariant('reveal', 'html.js-reveal &');
+                    addVariant('inview', 'html.js-reveal &.is-inview');
+                    addVariant('group-inview', 'html.js-reveal .group.is-inview &');
+                }
+            ]
         }
     </script>
 
+    <!-- Camada de micro-interacoes do kit (hover, press, entrada do hero) -->
+    <link rel="stylesheet" href="/assets/motion/motion.css">
     <!-- Estilos do Projeto (Vite) -->
     <link rel="stylesheet" href="/src/styles/main.css">
+    <script>if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');setTimeout(()=>document.querySelectorAll('[data-reveal]').forEach(e=>{const r=e.getBoundingClientRect();if(r.top<innerHeight)e.classList.add('is-inview')}),4000)}</script>
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+    <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 </head>
 
-<body
-    class="bg-softbg text-charcoal font-sans antialiased overflow-x-hidden selection:bg-moss-700 selection:text-white pb-20 md:pb-0">
+<body class="bg-softbg text-charcoal font-sans antialiased overflow-x-hidden selection:bg-moss-700 selection:text-white">
 
-    <!-- FAIXA DE AVISO CONFIGURAVEL VIA AVISO.TXT (OCULTA POR PADRAO) -->
-    <div id="top-announcement"
-        class="hidden bg-moss-900 text-white text-xs py-2 px-4 text-center font-semibold border-b border-moss-700/60 relative z-50">
-        <div class="max-w-5xl mx-auto flex items-center justify-center gap-2">
-            <i class="fa-solid fa-bullhorn text-emerald-400 text-xs"></i>
-            <span id="txt-aviso"></span>
+    <!-- HEADER -->
+    <header class="nav site-header fixed top-0 inset-x-0 z-40">
+        <a href="#sobre" class="skip-link">Pular para o conteúdo</a>
+        <!-- FAIXA DE AVISO CONFIGURAVEL VIA AVISO.TXT (OCULTA POR PADRAO) -->
+        <div id="top-announcement" class="hidden bg-moss-900 text-white text-sm py-2 text-center font-medium">
+            <div class="wrap flex items-center justify-center gap-2">
+                <i class="fa-solid fa-bullhorn text-moss-300 text-xs" aria-hidden="true"></i>
+                <span id="txt-aviso"></span>
+            </div>
         </div>
-    </div>
-
-    <!-- HEADER PRINCIPAL (CAPSULA EM VIDRO CLARO COM VERDE MUSGO) -->
-    <header class="fixed top-4 sm:top-6 inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
-        <div
-            class="glass-capsule px-5 sm:px-6 py-3 rounded-full flex items-center justify-between gap-4 sm:gap-8 max-w-5xl w-full pointer-events-auto shadow-sm">
-
-            <!-- Logo -->
-            <a href="#inicio" class="flex items-center gap-3 group shrink-0">
-                <img src="logo.svg" alt="Carioca Logo" class="h-7 sm:h-8 w-auto object-contain logo-dark">
+        <div class="wrap h-16 sm:h-[72px] flex items-center justify-between gap-6">
+            <a href="#inicio" class="nav-logo flex items-center shrink-0 min-h-[44px]" aria-label="Carioca, início">
+                <img src="logo.svg" alt="Carioca" class="h-7 sm:h-8 w-auto object-contain logo-dark">
             </a>
 
-            <!-- Menu Desktop -->
-            <nav
-                class="hidden lg:flex items-center space-x-6 text-xs font-bold tracking-wider uppercase text-charcoal/80">
-                <a href="#inicio" class="hover:text-moss-700 transition-colors">Início</a>
-                <a href="#sobre" class="hover:text-moss-700 transition-colors">Sobre</a>
-                <a href="#servicos" class="hover:text-moss-700 transition-colors">Serviços</a>
-                <a href="#avaliacoes" class="hover:text-moss-700 transition-colors">Avaliações</a>
-                <a href="#faq" class="hover:text-moss-700 transition-colors">Dúvidas</a>
-                <a href="#contato" class="hover:text-moss-700 transition-colors">Contato</a>
+            <nav aria-label="Principal" class="nav__links hidden lg:flex items-center gap-7 text-[15px] text-charcoal/80">
+                <a href="#sobre" class="nav-link">Sobre</a>
+                <a href="#servicos" class="nav-link">Serviços</a>
+                <a href="#avaliacoes" class="nav-link">Avaliações</a>
+                <a href="#faq" class="nav-link">Dúvidas</a>
+                <a href="#contato" class="nav-link">Como chegar</a>
             </nav>
 
             <div class="flex items-center gap-3">
-                <!-- Status Aberto/Fechado em Tempo Real -->
-                <div id="live-status-header"
-                    class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold border transition-all">
-                    <span id="live-status-dot" class="w-2 h-2 rounded-full"></span>
-                    <span id="live-status-text">Carregando status...</span>
+                <div id="live-status-header" class="status-pill hidden xl:inline-flex">
+                    <span id="live-status-dot" class="status-dot"></span>
+                    <span id="live-status-text">Terça a sábado, 9h às 20h</span>
                 </div>
 
-                <!-- Botão de Agendamento -->
-                <button onclick="openBookingModal()"
-                    class="btn-shine bg-moss-700 hover:bg-moss-800 text-white font-bold text-xs uppercase tracking-wider px-4 sm:px-5 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-sm shrink-0">
-                    <i class="fa-regular fa-calendar-check text-xs"></i>
-                    <span>Agendar</span>
-                </button>
+                <button type="button" onclick="openBookingModal()" class="btn btn--primary hidden sm:inline-flex">Agendar horário</button>
 
-                <!-- Botão Menu Mobile (Hamburguer) -->
-                <button onclick="toggleMobileMenu()" aria-label="Abrir menu de navegação"
-                    class="lg:hidden text-charcoal hover:text-moss-700 p-2 rounded-full hover:bg-moss-50 transition-colors shrink-0">
-                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+                <button type="button" id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer"
+                    class="lg:hidden w-11 h-11 inline-flex items-center justify-center text-charcoal hover:bg-stone transition-colors">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- MENU MOBILE GAVETA (DRAWER) -->
-    <div id="mobile-drawer"
-        class="fixed inset-0 z-40 bg-white/98 backdrop-blur-2xl transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden flex flex-col justify-between p-6 pt-24 border-l border-moss-100">
-        <div class="space-y-6 max-w-sm mx-auto w-full text-center">
-            <!-- Status no Mobile -->
-            <div id="mobile-live-status"
-                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold border mx-auto">
-                <span class="status-dot w-2 h-2 rounded-full"></span>
-                <span class="status-text">Carregando...</span>
+    <!-- MENU MOBILE (TELA CHEIA) -->
+    <div id="mobile-drawer" class="mobile-drawer fixed inset-0 z-30 bg-softbg lg:hidden flex flex-col justify-between pb-8 pt-24" aria-hidden="true">
+        <div class="wrap">
+            <div id="mobile-live-status" class="status-pill inline-flex mb-6">
+                <span class="status-dot"></span>
+                <span class="status-text">Terça a sábado, 9h às 20h</span>
             </div>
 
-            <nav class="flex flex-col space-y-3 text-sm font-bold uppercase tracking-wider text-charcoal">
-                <a href="#inicio" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Início</a>
-                <a href="#sobre" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Sobre o Carioca</a>
-                <a href="#servicos" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Serviços &amp; Preços</a>
-                <a href="#avaliacoes" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Depoimentos</a>
-                <a href="#faq" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Perguntas Frequentes</a>
-                <a href="#contato" onclick="toggleMobileMenu()"
-                    class="py-2.5 border-b border-gray-100 hover:text-moss-700 transition-colors">Localização &amp; Contato</a>
+            <nav aria-label="Menu móvel" class="flex flex-col text-2xl font-medium text-charcoal">
+                <a href="#sobre" onclick="toggleMobileMenu()" class="drawer-link">Sobre o Carioca</a>
+                <a href="#servicos" onclick="toggleMobileMenu()" class="drawer-link">Serviços e preços</a>
+                <a href="#avaliacoes" onclick="toggleMobileMenu()" class="drawer-link">Avaliações</a>
+                <a href="#faq" onclick="toggleMobileMenu()" class="drawer-link">Dúvidas</a>
+                <a href="#contato" onclick="toggleMobileMenu()" class="drawer-link">Como chegar</a>
             </nav>
         </div>
 
-        <div class="space-y-3 max-w-sm mx-auto w-full pt-6">
-            <button onclick="toggleMobileMenu(); openBookingModal();"
-                class="w-full bg-moss-700 hover:bg-moss-800 text-white font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-md transition-all active:scale-95">
-                <i class="fa-regular fa-calendar-check text-sm"></i>
-                <span>Agendar Horário</span>
-            </button>
-            <a href="https://wa.me/5521995660434" target="_blank"
-                class="link-whatsapp w-full bg-moss-50 hover:bg-moss-100 text-moss-800 font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-2xl flex items-center justify-center gap-2 border border-moss-200 transition-all active:scale-95">
-                <i class="fa-brands fa-whatsapp text-sm text-emerald-600"></i>
+        <div class="wrap space-y-3">
+            <button type="button" onclick="toggleMobileMenu(); openBookingModal();" class="btn btn--primary w-full">Agendar horário</button>
+            <a href="https://wa.me/5521995660434" target="_blank" rel="noopener" class="link-whatsapp btn btn--secondary w-full">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                 <span>Falar no WhatsApp</span>
             </a>
         </div>
     </div>
-            </a>
-        </div>
-    </div>
 
-    <!-- HERO SECTION: BRANCO E VERDE MUSGO - CLEAN, ELEGANTE E COM FOTO DIRETO NA DIVISAO -->
-    <section id="inicio" class="relative w-full flex items-end justify-center bg-softbg border-b border-gray-200/90 pt-24 sm:pt-28 overflow-hidden">
+    <main>
+        <!-- HERO: exatamente a primeira tela -->
+        <section id="inicio" class="hero" data-enter aria-labelledby="hero-h">
+            <div class="wrap hero-wrap">
+              <div class="hero-text hero-grid">
+                <div class="hero-copy">
+                    <h1 id="hero-h" class="hero-title">Carioca. <span class="hero-sub">Corte, barba e visagismo em Ourinhos.</span></h1>
 
-        <!-- Foto de Fundo no Celular: absoluta, atras do conteudo, so aparece em telas pequenas -->
-        <div class="absolute inset-0 z-0 lg:hidden pointer-events-none select-none">
-            <!-- Gradiente da esquerda para cobrir o texto e deixa-lo legivel -->
-            <div class="absolute inset-0 z-10 bg-gradient-to-r from-softbg via-softbg/80 to-softbg/10"></div>
-            <!-- Gradiente do topo para a barra de navegacao -->
-            <div class="absolute inset-0 z-10 bg-gradient-to-b from-softbg/70 via-transparent to-softbg/40"></div>
-            <img src="carioca.png" alt=""
-                class="anim-photo-rise absolute bottom-0 right-0 h-full w-auto object-contain object-bottom cutout-glow"
-                aria-hidden="true">
-        </div>
-        
-        <!-- Container Principal: Layout 2 Colunas com Foco Total na Foto Gigante apoiada na divisao -->
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end w-full">
-
-                <!-- Coluna Esquerda: Textos, Titulos e Chamadas de Acao com Layout Clean e Animacoes -->
-                <div class="lg:col-span-6 relative z-10 space-y-6 text-left pt-4 pb-14 sm:pb-20 lg:pb-20">
-                    
-                    <!-- Selo de Especialidade -->
-                    <div class="anim-fade-down delay-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-moss-50 border border-moss-200 text-moss-800 text-[11px] sm:text-xs font-semibold tracking-wider uppercase shadow-sm">
-                        <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-                        <span>BARBEIRO ESPECIALISTA &amp; VISAGISTA</span>
-                    </div>
-
-                    <!-- Titulo Principal Limpo -->
-                    <div class="anim-fade-up delay-2 space-y-1.5">
-                        <h1 class="font-heading font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-charcoal leading-[0.95]">
-                            CARIOCA
-                        </h1>
-                        <p class="font-heading font-extrabold text-lg sm:text-2xl text-moss-700 tracking-tight">
-                            Estilo, Precisao &amp; Exclusividade
-                        </p>
-                    </div>
-
-                    <!-- Texto Conceitual -->
-                    <p class="anim-fade-up delay-3 text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
-                        O rigor da barbearia classica aliado as mais modernas tecnicas de visagismo masculino. Cada corte e barba sao desenhados sob medida para o formato do seu rosto.
+                    <p class="hero-lead">
+                        Corte e barba desenhados para o formato do seu rosto, na Mr. Falcone Barbearia, Jardim Tropical. Terça a sábado, das 9h às 20h.
                     </p>
 
-                    <!-- Botoes de Acao Direta -->
-                    <div class="anim-fade-up delay-4 pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
-                        <button onclick="openBookingModal()"
-                            class="btn-shine glow-button bg-moss-700 hover:bg-moss-800 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-widest px-8 sm:px-10 py-4 rounded-full border border-moss-500/40 flex items-center justify-center gap-3 shadow-xl w-full sm:w-auto active:scale-95 transition-transform">
-                            <i class="fa-regular fa-calendar-check text-base"></i>
-                            <span>Agendar Horario</span>
+                    <div class="hero-actions">
+                        <button type="button" onclick="openBookingModal()" class="btn btn--primary">
+                            <span>Agendar horário</span>
+                            <svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg>
                         </button>
+                        <a href="#servicos" class="btn btn--secondary hidden sm:inline-flex">Ver serviços e preços</a>
+                    </div>
 
-                        <a href="#servicos"
-                            class="btn-shine bg-white hover:bg-moss-50 text-moss-800 font-heading font-bold text-xs uppercase tracking-widest px-6 py-4 rounded-full border border-moss-200/80 shadow-sm transition-all flex items-center justify-center gap-2 w-full sm:w-auto active:scale-95">
-                            <i class="fa-solid fa-list-check text-moss-700 text-xs"></i>
-                            <span>Ver Servicos &amp; Precos</span>
+                    <dl class="hero-facts">
+                        <div>
+                            <dt>Experiência</dt>
+                            <dd>+8 anos</dd>
+                        </div>
+                        <div>
+                            <dt>Google</dt>
+                            <dd>
+                                <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012"
+                                    target="_blank" rel="noopener" class="link-google link">Nota 5,0</a>
+                            </dd>
+                        </div>
+                        <div class="hidden sm:block">
+                            <dt>Atendimento</dt>
+                            <dd>Hora marcada</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="hero-media hero__media" data-enter-media>
+                    <img src="carioca.png" alt="Carioca, barbeiro e visagista" class="hero-photo" fetchpriority="high">
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- SOBRE -->
+        <section id="sobre" class="section bg-white">
+            <div class="wrap">
+                <div class="split">
+                    <div data-reveal class="reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none">
+                        <h2 class="section-title">Visagismo e barbearia clássica na mesma cadeira</h2>
+                        <p class="body-text mt-6">
+                            O Carioca une o rigor técnico da barbearia clássica às técnicas atuais de corte e visagismo masculino. Cada atendimento considera a estrutura do rosto, o tipo de fio e a sua rotina.
+                        </p>
+
+                        <div class="stats mt-10">
+                            <div>
+                                <p class="stat-num">+8</p>
+                                <p class="stat-label">anos de prática</p>
+                            </div>
+                            <div>
+                                <p class="stat-num">+5 mil</p>
+                                <p class="stat-label">clientes atendidos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul data-reveal class="feature-list group">
+                        <li class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[0ms]">
+                            <span class="feature-icon"><i class="fa-solid fa-scissors" aria-hidden="true"></i></span>
+                            <div>
+                                <h3>Corte desenhado para o rosto</h3>
+                                <p>Corte e barba pensados para valorizar os seus traços.</p>
+                            </div>
+                        </li>
+                        <li class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[100ms]">
+                            <span class="feature-icon"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span>
+                            <div>
+                                <h3>Hora marcada, sem fila</h3>
+                                <p>A agenda é organizada para você ser atendido no horário combinado.</p>
+                            </div>
+                        </li>
+                        <li class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[200ms]">
+                            <span class="feature-icon"><i class="fa-solid fa-pump-soap" aria-hidden="true"></i></span>
+                            <div>
+                                <h3>Produtos para cabelo e barba</h3>
+                                <p>Cosméticos profissionais escolhidos para o seu tipo de fio.</p>
+                            </div>
+                        </li>
+                        <li class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[300ms]">
+                            <span class="feature-icon"><i class="fa-solid fa-mug-saucer" aria-hidden="true"></i></span>
+                            <div>
+                                <h3>Sala com ar-condicionado e café</h3>
+                                <p>Ar-condicionado, café de cortesia e música ambiente.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOMENTO: A FRASE DO CARIOCA ACENDE PALAVRA POR PALAVRA, SEGUIDA PELAS AVALIACOES -->
+        <section id="frase" class="section statement" data-moment="word-highlight" aria-labelledby="frase-h">
+            <div class="wrap">
+                <h2 id="frase-h" data-reveal class="eyebrow reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none">A filosofia do Carioca</h2>
+                <p class="mo-wh__text mt-6">Não se trata apenas de cortar o cabelo ou alinhar a barba. Trata-se de entregar uma <strong>renovação de imagem</strong>, de estilo e de autoestima para quem senta na cadeira.</p>
+                <div id="avaliacoes" data-reveal class="reviews-block group">
+                    <p class="reviews-head reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[0ms]"><img class="inline-ic" src="/assets/icons/google-icon.svg" alt="" width="18" height="18"> Nota 5,0 no Google. <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012" target="_blank" rel="noopener" class="link-google link">Ler as avaliações de clientes no Google</a></p>
+                <div class="review-row mt-6">
+                    <figure class="review reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[120ms]">
+                        <div class="stars" role="img" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <blockquote>O Carioca é sem dúvidas o melhor barbeiro de Ourinhos. O cuidado com o visagismo e a precisão do corte fazem toda a diferença. Não troco por outro.</blockquote>
+                        <figcaption><span class="avatar" aria-hidden="true">JL</span><span><strong>João Latczuk</strong><span>Cliente recorrente</span></span></figcaption>
+                    </figure>
+                    <figure class="review reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[240ms]">
+                        <div class="stars" role="img" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <blockquote>Excelente profissional! Atendimento muito pontual, o ambiente é descontraído e a barba fica perfeita com toalha quente e acabamento na navalha.</blockquote>
+                        <figcaption><span class="avatar" aria-hidden="true">LO</span><span><strong>Luiz Otavio</strong><span>Cliente verificado</span></span></figcaption>
+                    </figure>
+                    <figure class="review reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[360ms]">
+                        <div class="stars" role="img" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <blockquote>Atendimento nota dez! Meu filho sempre corta o cabelo com o Carioca. É muito paciente, educado e o corte fica sempre impecável.</blockquote>
+                        <figcaption><span class="avatar" aria-hidden="true">VC</span><span><strong>Vanessa Cadamuro</strong><span>Cliente verificada</span></span></figcaption>
+                    </figure>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARCERIAS: CARROSSEL INFINITO (editavel em public/parcerias.txt) -->
+        <section id="parcerias" class="partners hidden" aria-labelledby="parcerias-h">
+            <div class="wrap partners__head">
+                <h2 id="parcerias-h" class="partners__title">Parcerias</h2>
+                <button type="button" class="partners__toggle" data-marquee-toggle aria-pressed="false" aria-label="Pausar animação das parcerias">
+                    <i class="fa-solid fa-pause" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="marquee group/marquee">
+                <ul class="marquee__track animate-marquee motion-reduce:animate-none group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused]" data-marquee-track></ul>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS: TABELA DE PREÇOS -->
+        <section id="servicos" class="section">
+            <div class="wrap">
+                <div class="split split--head">
+                    <div data-reveal class="reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none">
+                        <h2 class="section-title">Preços de corte, barba e acabamento</h2>
+                        <p class="body-text mt-4">Toque no serviço para seguir direto ao agendamento.</p>
+                    </div>
+                    <div data-reveal class="filter-bar reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-150" role="group" aria-label="Filtrar serviços">
+                        <button type="button" onclick="filtrarServicos('todos')" class="filter-tab active" data-cat="todos" aria-pressed="true">Todos</button>
+                        <button type="button" onclick="filtrarServicos('combos')" class="filter-tab" data-cat="combos" aria-pressed="false">Combos</button>
+                        <button type="button" onclick="filtrarServicos('cabelo')" class="filter-tab" data-cat="cabelo" aria-pressed="false">Cabelo</button>
+                        <button type="button" onclick="filtrarServicos('barba')" class="filter-tab" data-cat="barba" aria-pressed="false">Barba</button>
+                        <button type="button" onclick="filtrarServicos('acabamento')" class="filter-tab" data-cat="acabamento" aria-pressed="false">Acabamento</button>
+                    </div>
+                </div>
+
+                <div id="services-grid" data-reveal class="price-list group mt-6">
+                    <!-- Preenchido via TypeScript a partir de opcoes.txt -->
+                </div>
+            </div>
+        </section>
+
+        <!-- DÚVIDAS: TODAS AS RESPOSTAS ABERTAS -->
+        <section id="faq" class="section bg-white">
+            <div class="wrap">
+                <div class="split">
+                    <div data-reveal class="reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none">
+                        <h2 class="section-title">Dúvidas antes do seu horário</h2>
+                        <p class="body-text mt-4">Se a sua pergunta não estiver aqui, o Carioca responde pelo WhatsApp.</p>
+                        <a href="https://wa.me/5521995660434" target="_blank" rel="noopener" class="link-whatsapp btn btn--secondary mt-8">
+                            <img class="btn-ic" src="/assets/icons/whatsapp.svg" alt="" width="20" height="20">
+                            <span>Conversar com o Carioca</span>
                         </a>
-                    </div>
-
-                    <!-- Metricas de Confianca com Contadores Animados -->
-                    <div class="anim-fade-up delay-5 pt-5 border-t border-gray-200/80 grid grid-cols-3 gap-4 text-center lg:text-left max-w-md mx-auto lg:mx-0">
-                        <div>
-                            <p class="font-heading text-2xl font-black text-charcoal"><span class="counter-number" data-target="8">+0</span> Anos</p>
-                            <p class="text-[11px] text-gray-500 uppercase font-semibold mt-0.5">Experiencia</p>
-                        </div>
-                        <div>
-                            <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012"
-                                target="_blank" class="link-google group block cursor-pointer">
-                                <div class="flex items-center justify-center lg:justify-start gap-1 text-amber-500 text-xs mb-1">
-                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
-                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
-                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
-                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
-                                    <i class="fa-solid fa-star transition-transform duration-200 group-hover:scale-125"></i>
-                                </div>
-                                <p class="text-[11px] text-gray-500 group-hover:text-moss-700 uppercase font-semibold transition-colors">Nota 5.0 no Google</p>
-                            </a>
-                        </div>
-                        <div>
-                            <p class="font-heading text-2xl font-black text-emerald-600"><span class="counter-number" data-target="100">0</span>%</p>
-                            <p class="text-[11px] text-gray-500 uppercase font-semibold mt-0.5">Pontualidade</p>
-                        </div>
-                    </div>
-
-                    <!-- Linha Limpa de Informacoes e Local -->
-                    <div class="anim-fade-up delay-6 pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-xs text-gray-500">
-                        <span class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-shop text-moss-700"></i>
-                            <span>Atendimento no espaco: <strong class="txt-barbearia text-charcoal font-semibold">Mr. Falcone Barbearia</strong></span>
-                        </span>
-                        <span class="text-gray-300 hidden sm:inline">&bull;</span>
-                        <span class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-location-dot text-moss-700"></i>
-                            <span>Ourinhos &mdash; SP</span>
-                        </span>
-                        <span class="text-gray-300 hidden sm:inline">&bull;</span>
-                        <span class="flex items-center gap-1.5">
-                            <i class="fa-regular fa-clock text-moss-700"></i>
-                            <span class="txt-horario">Terca a Sabado: 09:00h as 20:00h</span>
-                        </span>
-                    </div>
-
-                </div>
-
-                <!-- Coluna Direita: Foto Gigante - oculta no celular, visivel no desktop -->
-                <div class="lg:col-span-6 hidden lg:flex items-end justify-end self-end pointer-events-none pb-0">
-                    <img src="carioca.png" alt="Carioca Barbeiro e Visagista"
-                        class="anim-photo-rise h-[60vh] sm:h-[72vh] md:h-[80vh] lg:h-[86vh] max-h-[820px] w-auto object-contain object-bottom block cutout-glow filter drop-shadow-2xl mx-auto lg:mr-0"
-                        onerror="this.onerror=null; this.src='carioca.png';">
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SOBRE O CARIOCA (Fundo Branco Padrao) -->
-    <section id="sobre" class="reveal py-24 bg-white relative z-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-                <div class="lg:col-span-6 space-y-6">
-                    <span
-                        class="reveal-item stagger-1 px-3.5 py-1.5 bg-moss-50 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
-                        // A Experiência
-                    </span>
-
-                    <h2 class="reveal-item stagger-2 font-heading text-3xl sm:text-5xl font-extrabold text-charcoal leading-tight">
-                        A Arte da Barbearia de Alto Padrão
-                    </h2>
-
-                    <p class="reveal-item stagger-3 text-gray-600 leading-relaxed text-sm sm:text-base">
-                        O Carioca une o rigor técnico da barbearia clássica às mais modernas técnicas de corte
-                        e visagismo masculino. Cada atendimento é planejado levando em consideração a estrutura
-                        facial, o tipo de fio e a rotina de cada cliente, garantindo um visual harmônico e de presença marcante.
-                    </p>
-
-                    <!-- Diferenciais em Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <div class="reveal-item stagger-1 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
-                            <i class="fa-solid fa-scissors text-moss-700 text-xl mb-2"></i>
-                            <h4 class="font-heading font-bold text-charcoal text-sm">Visagismo Personalizado</h4>
-                            <p class="text-xs text-gray-500 mt-1">Corte e barba desenhados sob medida para valorizar os traços do seu rosto.</p>
-                        </div>
-
-                        <div class="reveal-item stagger-2 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
-                            <i class="fa-solid fa-clock-rotate-left text-moss-700 text-xl mb-2"></i>
-                            <h4 class="font-heading font-bold text-charcoal text-sm">Pontualidade Absoluta</h4>
-                            <p class="text-xs text-gray-500 mt-1">Respeito rigoroso aos horários agendados, sem atrasos desnecessários.</p>
-                        </div>
-
-                        <div class="reveal-item stagger-3 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
-                            <i class="fa-solid fa-wand-magic-sparkles text-moss-700 text-xl mb-2"></i>
-                            <h4 class="font-heading font-bold text-charcoal text-sm">Produtos Premium</h4>
-                            <p class="text-xs text-gray-500 mt-1">Cosméticos específicos para cuidado capilar e barboterapia de alta eficácia.</p>
-                        </div>
-
-                        <div class="reveal-item stagger-4 interactive-card p-5 rounded-2xl bg-softbg border border-gray-200/80">
-                            <i class="fa-solid fa-couch text-moss-700 text-xl mb-2"></i>
-                            <h4 class="font-heading font-bold text-charcoal text-sm">Ambiente Confortável</h4>
-                            <p class="text-xs text-gray-500 mt-1">Espaço climatizado, café de cortesia e música ambiente selecionada.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-6">
-                    <div
-                        class="relative rounded-3xl overflow-hidden bg-moss-800 text-white p-8 sm:p-12 shadow-xl border border-moss-700/60">
-                        <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-moss-600/20 rounded-full blur-2xl"></div>
-
-                        <div class="relative z-10 space-y-6">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-moss-700 text-white flex items-center justify-center font-heading font-bold text-2xl border border-moss-500/40 shadow-inner">
-                                    C
-                                </div>
-                                <div>
-                                    <h3 class="font-heading text-xl font-bold">Carioca</h3>
-                                    <p class="text-xs text-moss-300 uppercase tracking-wider font-medium">Barbeiro &amp; Visagista</p>
-                                </div>
-                            </div>
-
-                            <p class="text-moss-100 text-sm leading-relaxed italic border-l-2 border-moss-500 pl-4">
-                                "Não se trata apenas de cortar o cabelo ou alinhar a barba, mas de entregar uma
-                                experiência completa de renovação de imagem, estilo e autoestima para o homem contemporâneo."
-                            </p>
-
-                            <div class="grid grid-cols-3 gap-4 pt-4 border-t border-moss-700/60 text-center">
-                                <div>
-                                    <p class="font-heading text-2xl sm:text-3xl font-black text-white">+8</p>
-                                    <p class="text-[10px] text-moss-300 uppercase font-semibold mt-1">Anos de Prática</p>
-                                </div>
-                                <div>
-                                    <p class="font-heading text-2xl sm:text-3xl font-black text-white">+5k</p>
-                                    <p class="text-[10px] text-moss-300 uppercase font-semibold mt-1">Clientes Satisfeitos</p>
-                                </div>
-                                <div>
-                                    <p class="font-heading text-2xl sm:text-3xl font-black text-emerald-400">100%</p>
-                                    <p class="text-[10px] text-moss-300 uppercase font-semibold mt-1">Dedicação &amp; Pontualidade</p>
-                                </div>
+                        <div class="pay-block">
+                            <p class="pay-label">Formas de pagamento</p>
+                            <div class="pay-icons">
+                                <span class="pay-tile"><img src="/assets/icons/pix.svg" alt="Pix" width="30" height="30"></span>
+                                <span class="pay-tile"><img src="/assets/icons/visa.svg" alt="Visa" width="62" height="20"></span>
+                                <span class="pay-tile"><img src="/assets/icons/mastercard.svg" alt="Mastercard" width="40" height="31"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVIÇOS & TABELA DE VALORES EDITÁVEIS VIA OPCOES.TXT -->
-    <section id="servicos" class="reveal py-24 bg-softbg relative z-20 border-t border-gray-200/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span
-                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
-                    Tabela de Valores
-                </span>
-                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
-                    Serviços &amp; Experiências
-                </h2>
-                <p class="text-gray-600 text-xs sm:text-sm mt-2">
-                    Escolha a categoria e selecione o serviço para iniciar seu agendamento direto com facilidade.
-                </p>
-            </div>
-
-            <!-- Abas / Filtros de Categoria -->
-            <div class="flex items-center justify-center gap-2 flex-wrap mb-10">
-                <button onclick="filtrarServicos('todos')"
-                    class="filter-tab active px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-moss-700 text-white shadow-md"
-                    data-cat="todos">
-                    Todos
-                </button>
-                <button onclick="filtrarServicos('combos')"
-                    class="filter-tab px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-white text-gray-700 border border-gray-200 hover:border-moss-600"
-                    data-cat="combos">
-                    Combos VIP
-                </button>
-                <button onclick="filtrarServicos('cabelo')"
-                    class="filter-tab px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-white text-gray-700 border border-gray-200 hover:border-moss-600"
-                    data-cat="cabelo">
-                    Cabelo
-                </button>
-                <button onclick="filtrarServicos('barba')"
-                    class="filter-tab px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-white text-gray-700 border border-gray-200 hover:border-moss-600"
-                    data-cat="barba">
-                    Barba
-                </button>
-                <button onclick="filtrarServicos('acabamento')"
-                    class="filter-tab px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-white text-gray-700 border border-gray-200 hover:border-moss-600"
-                    data-cat="acabamento">
-                    Cuidados &amp; Acabamento
-                </button>
-            </div>
-
-            <!-- Grid de Cards de Serviços (Gerados Dinamicamente a partir de opcoes.txt) -->
-            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Preenchido via JavaScript -->
-            </div>
-
-            <!-- Card de Consulta Rápida -->
-            <div class="mt-8 p-6 sm:p-8 rounded-3xl glass-card border border-moss-200 text-center max-w-2xl mx-auto">
-                <h4 class="font-heading font-bold text-lg text-charcoal mb-2">Precisa de um pacote sob medida para eventos ou casamentos?</h4>
-                <p class="text-xs sm:text-sm text-gray-600 mb-4">Consulte horários especiais para o Dia do Noivo, formaturas e produções completas diretamente pelo WhatsApp.</p>
-                <a href="https://wa.me/5521995660434"
-                    target="_blank"
-                    class="link-whatsapp inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-moss-700 hover:bg-moss-800 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md">
-                    <i class="fa-brands fa-whatsapp text-sm text-emerald-300"></i>
-                    <span>Conversar com o Carioca</span>
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- AVALIAÇÕES & DEPOIMENTOS (Fundo Branco Padrão) -->
-    <section id="avaliacoes" class="reveal py-24 bg-white relative z-20 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012"
-                    target="_blank"
-                    class="link-google inline-flex items-center gap-2 px-3.5 py-1.5 bg-moss-50 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full hover:border-moss-600 transition-all shadow-sm">
-                    <i class="fa-solid fa-star text-amber-500 text-[10px]"></i>
-                    <span>Avaliação 5.0 no Google</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-gray-400 ml-0.5"></i>
-                </a>
-                <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal mt-3">
-                    Quem Confia no Carioca
-                </h2>
-                <p class="text-gray-600 text-xs sm:text-sm mt-2">
-                    A satisfação e o retorno constante de quem valoriza pontualidade e excelência técnica.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="reveal-item stagger-1 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="flex text-amber-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i>
+                    <dl data-reveal class="faq-list group">
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[0ms]">
+                            <dt>Preciso agendar ou posso ir por ordem de chegada?</dt>
+                            <dd>O agendamento pelo site ou WhatsApp garante o atendimento sem fila. Sem horário marcado, você é atendido se houver espaço na agenda.</dd>
                         </div>
-                        <p class="text-gray-600 text-sm italic leading-relaxed">
-                            "O Carioca é sem dúvidas o melhor barbeiro de Ourinhos. O cuidado com o visagismo e a precisão do corte fazem toda a diferença. Não troco por outro."
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-6 border-t border-gray-100 mt-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
-                            JL
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[70ms]">
+                            <dt>Quais formas de pagamento são aceitas?</dt>
+                            <dd>Pix, cartões de crédito e débito das principais bandeiras e dinheiro.</dd>
+                        </div>
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[140ms]">
+                            <dt>Onde o Carioca está atendendo?</dt>
+                            <dd>Na <span class="txt-barbearia font-medium text-charcoal">Mr. Falcone Barbearia</span>, em frente ao Pão de Açúcar, no Jardim Tropical. Há estacionamento na rua.</dd>
+                        </div>
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[210ms]">
+                            <dt>Tem pacote para noivo, formatura ou evento?</dt>
+                            <dd>Sim. Horários especiais e pacotes sob medida são combinados direto no WhatsApp.</dd>
+                        </div>
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[280ms]">
+                            <dt>Quanto tempo antes devo chegar?</dt>
+                            <dd>De 5 a 10 minutos antes. Dá tempo de tomar um café e começar na hora certa.</dd>
+                        </div>
+                        <div class="reveal:opacity-0 reveal:translate-y-6 group-inview:opacity-100 group-inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none delay-[350ms]">
+                            <dt>Posso somar serviços no mesmo horário?</dt>
+                            <dd>Sim. No agendamento você escolhe o serviço principal e soma adicionais, como sobrancelha ou pezinho. O valor e o tempo aparecem na hora.</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RODAPE: COMO CHEGAR (LOCALIZACAO E CONTATO) -->
+    <footer id="contato" class="closing site-footer">
+        <div class="wrap">
+            <div class="split">
+                <div data-reveal class="reveal:opacity-0 reveal:translate-y-8 inview:opacity-100 inview:translate-y-0 transition-all duration-700 ease-out motion-reduce:transition-none">
+                    <h2 class="section-title">A barbearia no Jardim Tropical</h2>
+                    <p class="body-text mt-4">Em frente ao Pão de Açúcar, com estacionamento na rua.</p>
+
+                    <dl class="info-list mt-8">
+                        <div>
+                            <dt>Espaço</dt>
+                            <dd class="txt-barbearia">Mr. Falcone Barbearia</dd>
                         </div>
                         <div>
-                            <p class="font-bold text-charcoal text-xs">João Latczuk</p>
-                            <p class="text-[10px] text-gray-400">Cliente Recorrente</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="reveal-item stagger-2 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="flex text-amber-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="text-gray-600 text-sm italic leading-relaxed">
-                            "Excelente profissional! Atendimento muito pontual, o ambiente é descontraído e a barba fica perfeita com toalha quente e acabamento na navalha."
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-6 border-t border-gray-100 mt-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
-                            LO
+                            <dt>Endereço</dt>
+                            <dd id="txt-endereco" class="txt-endereco">Jardim Tropical, Ourinhos, SP</dd>
                         </div>
                         <div>
-                            <p class="font-bold text-charcoal text-xs">Luiz Otavio</p>
-                            <p class="text-[10px] text-gray-400">Cliente Verificado</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="reveal-item stagger-3 glass-card p-8 rounded-3xl shadow-sm flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="flex text-amber-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="text-gray-600 text-sm italic leading-relaxed">
-                            "Atendimento nota dez! Meu filho sempre corta o cabelo com o Carioca. É muito paciente, educado e o corte fica sempre impecável."
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-6 border-t border-gray-100 mt-6">
-                        <div
-                            class="w-10 h-10 rounded-full bg-moss-700 text-white font-bold flex items-center justify-center text-xs">
-                            VC
+                            <dt>Horário</dt>
+                            <dd id="txt-horario" class="txt-horario">Terça a sábado, 9h às 20h</dd>
                         </div>
                         <div>
-                            <p class="font-bold text-charcoal text-xs">Vanessa Cadamuro</p>
-                            <p class="text-[10px] text-gray-400">Cliente Verificada</p>
+                            <dt>Pagamento</dt>
+                            <dd>Pix, cartões e dinheiro</dd>
                         </div>
+                    </dl>
+
+                    <div class="contact-actions mt-8">
+                        <button type="button" onclick="abrirGoogleMaps()" class="btn btn--secondary">
+                            <img class="btn-ic" src="/assets/icons/google-maps.svg" alt="" width="14" height="20"><span>Google Maps</span>
+                        </button>
+                        <button type="button" onclick="abrirWaze()" class="btn btn--secondary">
+                            <img class="btn-ic" src="/assets/icons/waze.svg" alt="" width="20" height="20"><span>Waze</span>
+                        </button>
+                        <button type="button" onclick="copiarEndereco()" class="btn btn--secondary">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i><span>Copiar endereço</span>
+                        </button>
                     </div>
+                </div>
+
+                <div data-reveal class="map-col reveal:opacity-0 reveal:scale-95 inview:opacity-100 inview:scale-100 transition-all duration-700 ease-out motion-reduce:transition-none delay-150">
+                    <div id="openstreetmap" class="map-frame" role="region" aria-label="Mapa da barbearia"></div>
                 </div>
             </div>
-
-            <!-- Link Avaliações Google -->
-            <div class="mt-10 text-center">
-                <a href="https://www.google.com/maps/place/MR.+FALCONE+BARBEARIA/@-22.9775066,-49.8848476,61m/data=!3m1!1e3!4m6!3m5!1s0x94c019c25443e6bf:0x5f445b1142552958!8m2!3d-22.9773743!4d-49.8849181!16s%2Fg%2F11jxzng012"
-                    target="_blank"
-                    class="link-google inline-flex items-center gap-2 text-xs text-gray-500 hover:text-moss-700 font-semibold transition-colors">
-                    <i class="fa-brands fa-google text-sm"></i>
-                    <span>Ver perfil oficial e avaliações no Google Maps</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                </a>
+            <!-- RODAPE DE DIREITOS -->
+            <div class="legal-inner">
+                <p>&copy; <span id="current-year"></span> Carioca. Todos os direitos reservados.</p>
+                <p>O conteúdo, a marca e as imagens deste site pertencem ao Carioca e não podem ser reproduzidos sem autorização.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- PERGUNTAS FREQUENTES (FAQ) - ACORDEÃO INTERATIVO -->
-    <section id="faq" class="reveal py-24 bg-softbg relative z-20 border-t border-gray-200/60">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span
-                    class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
-                    Tire suas Dúvidas
-                </span>
-                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-charcoal mt-3">
-                    Perguntas Frequentes
-                </h2>
-                <p class="text-gray-600 text-xs sm:text-sm mt-2">
-                    Tudo o que você precisa saber antes de comparecer ao seu atendimento.
-                </p>
-            </div>
-
-            <div class="space-y-4">
-                <!-- Pergunta 1 -->
-                <div class="glass-card rounded-2xl border border-gray-200/80 overflow-hidden">
-                    <button onclick="toggleFaq(1)"
-                        class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-heading font-bold text-sm sm:text-base text-charcoal hover:text-moss-700 transition-colors">
-                        <span>Preciso agendar com antecedência ou posso ir por ordem de chegada?</span>
-                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-content-1" class="hidden px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Recomendamos fortemente o agendamento prévio pelo site ou WhatsApp para garantir pontualidade e atendimento sem filas. Caso você apareça sem agendamento e houver disponibilidade na agenda, teremos prazer em atendê-lo.
-                    </div>
-                </div>
-
-                <!-- Pergunta 2 -->
-                <div class="glass-card rounded-2xl border border-gray-200/80 overflow-hidden">
-                    <button onclick="toggleFaq(2)"
-                        class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-heading font-bold text-sm sm:text-base text-charcoal hover:text-moss-700 transition-colors">
-                        <span>Quais são as formas de pagamento aceitas?</span>
-                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-content-2" class="hidden px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Aceitamos Pix, cartões de crédito e débito das principais bandeiras (Visa, Mastercard, Elo, etc.), além de pagamento em dinheiro.
-                    </div>
-                </div>
-
-                <!-- Pergunta 3 -->
-                <div class="glass-card rounded-2xl border border-gray-200/80 overflow-hidden">
-                    <button onclick="toggleFaq(3)"
-                        class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-heading font-bold text-sm sm:text-base text-charcoal hover:text-moss-700 transition-colors">
-                        <span>Onde o Carioca está atendendo atualmente?</span>
-                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-content-3" class="hidden px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Atualmente, os atendimentos do Carioca são realizados no espaço da <strong class="txt-barbearia text-moss-700 font-bold">Mr. Falcone Barbearia</strong>, localizada em frente ao Pão de Açúcar, no Jardim Tropical em Ourinhos/SP. Há facilidade para estacionamento na frente e em toda a extensão da via.
-                    </div>
-                </div>
-
-                <!-- Pergunta 4 -->
-                <div class="glass-card rounded-2xl border border-gray-200/80 overflow-hidden">
-                    <button onclick="toggleFaq(4)"
-                        class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-heading font-bold text-sm sm:text-base text-charcoal hover:text-moss-700 transition-colors">
-                        <span>Quanto tempo antes devo chegar ao meu horário?</span>
-                        <i id="faq-icon-4" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-content-4" class="hidden px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Sugerimos chegar cerca de 5 a 10 minutos antes do seu horário agendado. Assim você pode relaxar, tomar um café e garantir que a sua sessão inicie com total pontualidade.
-                    </div>
-                </div>
-
-                <!-- Pergunta 5 -->
-                <div class="glass-card rounded-2xl border border-gray-200/80 overflow-hidden">
-                    <button onclick="toggleFaq(5)"
-                        class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-heading font-bold text-sm sm:text-base text-charcoal hover:text-moss-700 transition-colors">
-                        <span>Posso agendar mais de um serviço no mesmo atendimento?</span>
-                        <i id="faq-icon-5" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-content-5" class="hidden px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Sim! No nosso sistema de agendamento online você pode selecionar o serviço principal e marcar serviços adicionais (como sobrancelha, pezinho ou depilação de nariz/ouvido). O valor total e o tempo são calculados automaticamente.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- LOCALIZAÇÃO, MAPA & CONTATO EDITÁVEIS VIA .TXT -->
-    <section id="contato" class="reveal py-24 bg-white relative z-20 border-t border-gray-200/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-                <div class="lg:col-span-6 space-y-6">
-                    <span
-                        class="px-3.5 py-1.5 bg-moss-100 text-moss-700 border border-moss-200 font-semibold text-xs tracking-wider uppercase rounded-full inline-block">
-                        Localização &amp; Acesso
-                    </span>
-                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-charcoal">
-                        Onde Encontrar o Carioca
-                    </h2>
-                    <p class="text-gray-600 text-xs sm:text-sm">
-                        Espaço de fácil acesso em Ourinhos, com estacionamento facilitado e ponto de referência direto em frente ao Pão de Açúcar.
-                    </p>
-
-                    <div class="space-y-4 pt-2">
-                        <!-- Espaço Atual (Carregado de barbearia.txt) -->
-                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-softbg border border-gray-200/80">
-                            <div
-                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-shop"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-charcoal text-sm">Espaço de Atendimento Atual</h4>
-                                <p class="txt-barbearia text-xs font-bold text-moss-700 mt-0.5">Mr. Falcone Barbearia</p>
-                            </div>
-                        </div>
-
-                        <!-- Endereço (Carregado de endereco.txt) -->
-                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-softbg border border-gray-200/80">
-                            <div
-                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-charcoal text-sm">Endereço Completo</h4>
-                                <p id="txt-endereco" class="txt-endereco text-xs text-gray-600 mt-0.5">Carregando endereço...</p>
-                            </div>
-                        </div>
-
-                        <!-- Horários (Carregado de horario.txt) -->
-                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-softbg border border-gray-200/80">
-                            <div
-                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
-                                <i class="fa-regular fa-clock"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-charcoal text-sm">Horário de Funcionamento</h4>
-                                <p id="txt-horario" class="txt-horario text-xs text-gray-600 mt-0.5">Carregando horários...</p>
-                            </div>
-                        </div>
-
-                        <!-- WhatsApp (Carregado de whatsapp.txt) -->
-                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-softbg border border-gray-200/80">
-                            <div
-                                class="w-11 h-11 rounded-2xl bg-moss-100 text-moss-700 flex items-center justify-center shrink-0">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-charcoal text-sm">Atendimento via WhatsApp</h4>
-                                <p class="txt-whatsapp text-xs text-gray-600 mt-0.5">(21) 99566-0434</p>
-                            </div>
-                        </div>
-
-                        <!-- Botões Rápidos de Ação: Waze, Google Maps & Copiar Endereço -->
-                        <div class="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                            <button onclick="abrirGoogleMaps()"
-                                class="py-3 px-3 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-charcoal font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
-                                <i class="fa-solid fa-map-location-dot text-moss-700"></i>
-                                <span>Google Maps</span>
-                            </button>
-
-                            <button onclick="abrirWaze()"
-                                class="py-3 px-3 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-charcoal font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
-                                <i class="fa-solid fa-route text-moss-700"></i>
-                                <span>Waze</span>
-                            </button>
-
-                            <button onclick="copiarEndereco()"
-                                class="py-3 px-3 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-charcoal font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm">
-                                <i class="fa-regular fa-copy text-moss-700"></i>
-                                <span>Copiar Endereço</span>
-                            </button>
-                        </div>
-
-                        <!-- Facilidades / Comodidades -->
-                        <div class="pt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-gray-600">
-                            <span class="px-3 py-1 rounded-full bg-softbg border border-gray-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-wifi text-moss-700"></i> Wi-Fi Grátis
-                            </span>
-                            <span class="px-3 py-1 rounded-full bg-softbg border border-gray-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-snowflake text-moss-700"></i> Ar-condicionado
-                            </span>
-                            <span class="px-3 py-1 rounded-full bg-softbg border border-gray-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-mug-saucer text-moss-700"></i> Café Especial
-                            </span>
-                            <span class="px-3 py-1 rounded-full bg-softbg border border-gray-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-square-parking text-moss-700"></i> Estacionamento Fácil
-                            </span>
-                            <span class="px-3 py-1 rounded-full bg-softbg border border-gray-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-credit-card text-moss-700"></i> Pix &amp; Cartões
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mapa Leaflet com Google Satellite -->
-                <div class="lg:col-span-6 h-full flex flex-col justify-center">
-                    <div id="openstreetmap"
-                        class="w-full h-80 sm:h-[460px] rounded-3xl border border-gray-200 shadow-xl z-10 overflow-hidden">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-moss-900 text-white py-12 border-t border-moss-800">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
-            <div class="flex items-center justify-center gap-2">
-                <img src="logo.svg" alt="Carioca Logo" class="h-6 w-auto object-contain brightness-200">
-            </div>
-            <p class="font-heading font-extrabold tracking-widest text-xs text-moss-300 uppercase">
-                CARIOCA — BARBEIRO ESPECIALISTA &amp; VISAGISTA
-            </p>
-            <p class="text-xs text-moss-300/80">
-                &copy; <span id="current-year"></span> Carioca. Todos os direitos reservados. Ourinhos — SP.
-            </p>
         </div>
     </footer>
 
-    <!-- BOTÃO FLUTUANTE WHATSAPP (APENAS DESKTOP) -->
-    <a href="https://wa.me/5521995660434" target="_blank" aria-label="Abrir conversa no WhatsApp"
-        class="link-whatsapp hidden md:flex fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- BARRA INFERIOR FIXA DE AÇÃO RÁPIDA (APENAS MOBILE) -->
-    <div id="mobile-bottom-bar"
-        class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200/80 px-4 py-2.5 flex items-center justify-between gap-2 shadow-2xl">
-        <button onclick="abrirGoogleMaps()"
-            class="flex-1 py-2 px-2 rounded-xl bg-moss-50 hover:bg-moss-100 text-moss-800 border border-moss-200 text-xs font-semibold flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-            <i class="fa-solid fa-location-dot text-sm text-moss-700"></i>
-            <span class="text-[10px] uppercase tracking-wider">Como Chegar</span>
+    <!-- BARRA INFERIOR FIXA (APENAS MOBILE) -->
+    <nav id="mobile-bottom-bar" class="actionbar" aria-label="Ações rápidas">
+        <button type="button" onclick="abrirGoogleMaps()" class="btn btn--secondary actionbar__icon" aria-label="Como chegar">
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
         </button>
-
-        <button onclick="openBookingModal()"
-            class="flex-[2] py-2.5 px-3 rounded-xl bg-moss-700 hover:bg-moss-800 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md active:scale-95 transition-transform">
-            <i class="fa-regular fa-calendar-check text-sm"></i>
-            <span>Agendar</span>
-        </button>
-
-        <a href="https://wa.me/5521995660434" target="_blank"
-            class="link-whatsapp flex-1 py-2 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform shadow-sm">
-            <i class="fa-brands fa-whatsapp text-sm"></i>
-            <span class="text-[10px] uppercase tracking-wider">WhatsApp</span>
+        <button type="button" onclick="openBookingModal()" class="btn btn--primary flex-1">Agendar horário</button>
+        <a href="https://wa.me/5521995660434" target="_blank" rel="noopener" class="link-whatsapp btn btn--secondary actionbar__icon" aria-label="WhatsApp">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
         </a>
-    </div>
+    </nav>
 
     <!-- MODAL DE AGENDAMENTO -->
-    <div id="booking-modal"
-        class="fixed inset-0 z-50 bg-charcoal/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-        
-        <div class="modal-content bg-white w-full max-w-lg rounded-3xl shadow-2xl p-5 sm:p-8 relative border border-gray-100 my-auto max-h-[92vh] overflow-y-auto">
+    <div id="booking-modal" class="fixed inset-0 z-50 bg-charcoal/70 backdrop-blur-sm items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 
-            <!-- Botão de Fechar -->
-            <button onclick="closeBookingModal()" aria-label="Fechar modal"
-                class="absolute top-4 right-4 text-gray-400 hover:text-charcoal p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <i class="fa-solid fa-xmark text-lg"></i>
+        <div class="modal-content bg-white w-full max-w-lg shadow-2xl p-5 sm:p-8 relative my-auto max-h-[92vh] overflow-y-auto">
+
+            <button type="button" onclick="closeBookingModal()" aria-label="Fechar"
+                class="absolute top-3 right-3 w-11 h-11 inline-flex items-center justify-center text-muted hover:text-charcoal hover:bg-stone transition-colors">
+                <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
             </button>
 
-            <!-- Cabeçalho do Modal -->
-            <div class="text-center mb-6">
-                <span class="text-[10px] text-moss-700 font-extrabold uppercase tracking-widest bg-moss-50 px-3 py-1 rounded-full border border-moss-200 inline-block mb-1">
-                    Agendamento Online
-                </span>
-                <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-charcoal">
-                    Reserve seu Horário
-                </h3>
-                <p class="text-xs text-gray-500 mt-1">Selecione o serviço, data e o horário desejado.</p>
+            <div class="mb-6 pr-10">
+                <h3 id="modal-title" class="text-2xl font-medium text-charcoal">Reserve seu horário</h3>
+                <p class="text-sm text-muted mt-1">Escolha o serviço, a data e o horário.</p>
             </div>
 
-            <!-- Formulário -->
-            <form onsubmit="handleModalBookingSubmit(event)" class="space-y-4">
-                
-                <!-- 1. Serviço Principal -->
+            <form onsubmit="handleModalBookingSubmit(event)" class="space-y-5">
+
                 <div>
-                    <label class="block text-xs font-bold text-charcoal mb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-scissors text-moss-700 text-xs"></i>
-                        <span>Serviço Principal</span>
-                    </label>
-                    <select id="modal-service-main" onchange="atualizarResumoReserva()" required
-                        class="w-full bg-softbg border border-gray-200 rounded-2xl p-3 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
-                        <!-- Preenchido dinamicamente a partir de opcoes.txt -->
+                    <label for="modal-service-main" class="field-label">Serviço principal</label>
+                    <select id="modal-service-main" onchange="atualizarResumoReserva()" required class="field">
                     </select>
                 </div>
 
-                <!-- 2. Serviços Adicionais Opcionais -->
-                <div>
-                    <label class="block text-xs font-bold text-charcoal mb-1.5 flex items-center justify-between">
-                        <span class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus text-moss-700 text-xs"></i>
-                            <span>Adicionais Opcionais</span>
-                        </span>
-                        <span class="text-[10px] text-gray-400 font-normal">Opcional</span>
-                    </label>
-
-                    <div id="modal-addons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-softbg p-3 rounded-2xl border border-gray-200/80 max-h-36 overflow-y-auto">
-                        <!-- Preenchido dinamicamente a partir de opcoes.txt -->
+                <fieldset>
+                    <legend class="field-label flex items-center justify-between w-full">
+                        <span>Adicionais <span class="text-xs text-muted font-normal">(opcional)</span></span>
+                    </legend>
+                    <p id="modal-addons-hint" class="text-sm text-muted mb-2"></p>
+                    <div id="modal-addons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-softbg p-3 border border-charcoal/10 max-h-40 overflow-y-auto">
                     </div>
-                </div>
+                </fieldset>
 
-                <!-- Resumo de Valor e Tempo em Tempo Real -->
-                <div class="p-3 rounded-2xl bg-moss-50 border border-moss-200/80 flex items-center justify-between">
-                    <div class="flex items-center gap-2 text-xs text-moss-800">
-                        <i class="fa-regular fa-clock text-moss-700"></i>
-                        <span>Tempo estimado: <strong id="resumo-duracao">-- min</strong></span>
+                <div class="p-4 bg-moss-50 border border-moss-200 flex items-center justify-between">
+                    <div class="text-sm text-moss-800">
+                        Tempo estimado: <strong id="resumo-duracao" class="font-medium">-- min</strong>
                     </div>
                     <div class="text-right">
-                        <span class="text-[10px] text-gray-500 uppercase block font-semibold">Valor Total</span>
-                        <span id="resumo-valor" class="font-heading font-black text-moss-700 text-base">R$ 0,00</span>
+                        <span class="text-xs text-muted block">Valor total</span>
+                        <span id="resumo-valor" class="font-semibold text-moss-700 text-lg">R$ 0,00</span>
                     </div>
                 </div>
 
-                <!-- 3. Escolha de Data -->
                 <div>
-                    <label class="block text-xs font-bold text-charcoal mb-1.5 flex items-center gap-1.5">
-                        <i class="fa-regular fa-calendar text-moss-700 text-xs"></i>
-                        <span>Data do Atendimento</span>
-                    </label>
-                    <input type="date" id="modal-date" required onchange="updateAvailableTimes()"
-                        class="w-full bg-softbg border border-gray-200 rounded-2xl px-3 py-2.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
-                    <p id="modal-date-info" class="text-[11px] text-gray-500 mt-1"></p>
+                    <label for="modal-date" class="field-label">Data</label>
+                    <input type="date" id="modal-date" required onchange="updateAvailableTimes()" class="field">
+                    <p id="modal-date-info" class="text-xs text-muted mt-1"></p>
                 </div>
 
-                <!-- 4. Pílulas de Horário (Manhã, Tarde, Noite) -->
                 <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <label class="text-xs font-bold text-charcoal flex items-center gap-1.5">
-                            <i class="fa-regular fa-clock text-moss-700 text-xs"></i>
-                            <span>Escolha um Horário Disponível</span>
-                        </label>
-                        <span id="selected-time-badge" class="text-[11px] font-bold text-moss-700 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="field-label !mb-0">Horário disponível</p>
+                        <span id="selected-time-badge" class="text-xs font-medium text-moss-700 hidden">
                             Horário: <span id="selected-time-text"></span>
                         </span>
                     </div>
 
-                    <div id="time-chips-container" class="space-y-3 bg-softbg p-3 rounded-2xl border border-gray-200/80">
-                        <!-- Manhã -->
+                    <div id="time-chips-container" class="space-y-4 bg-softbg p-3 border border-charcoal/10">
                         <div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1 mb-1.5">
-                                <i class="fa-solid fa-sun text-amber-500 text-[10px]"></i> Manhã (09:00 - 12:00)
-                            </span>
-                            <div id="chips-morning" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
-                                <!-- Chips manhã -->
-                            </div>
+                            <span class="chip-group-label">Manhã &middot; 09:00 a 12:00</span>
+                            <div id="chips-morning" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5"></div>
                         </div>
-
-                        <!-- Tarde -->
                         <div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1 mb-1.5">
-                                <i class="fa-solid fa-cloud-sun text-orange-400 text-[10px]"></i> Tarde (12:30 - 17:30)
-                            </span>
-                            <div id="chips-afternoon" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
-                                <!-- Chips tarde -->
-                            </div>
+                            <span class="chip-group-label">Tarde &middot; 12:30 a 17:30</span>
+                            <div id="chips-afternoon" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5"></div>
                         </div>
-
-                        <!-- Noite -->
                         <div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1 mb-1.5">
-                                <i class="fa-solid fa-moon text-indigo-400 text-[10px]"></i> Noite (18:00 - 20:00)
-                            </span>
-                            <div id="chips-evening" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
-                                <!-- Chips noite -->
-                            </div>
+                            <span class="chip-group-label">Noite &middot; 18:00 a 20:00</span>
+                            <div id="chips-evening" class="grid grid-cols-4 sm:grid-cols-5 gap-1.5"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 5. Dados do Cliente -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-charcoal mb-1">Seu Nome</label>
-                        <input type="text" id="modal-name" placeholder="Ex: Lucas Silva" required
-                            class="w-full bg-softbg border border-gray-200 rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                        <label for="modal-name" class="field-label">Seu nome</label>
+                        <input type="text" id="modal-name" autocomplete="name" required class="field">
                     </div>
-
                     <div>
-                        <label class="block text-xs font-bold text-charcoal mb-1">Telefone WhatsApp</label>
-                        <input type="tel" id="modal-phone" placeholder="(14) 99818-1004" maxlength="15" required
-                            oninput="formatarTelefone(this)"
-                            class="w-full bg-softbg border border-gray-200 rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-moss-600 font-medium">
+                        <label for="modal-phone" class="field-label">WhatsApp</label>
+                        <input type="tel" id="modal-phone" autocomplete="tel" maxlength="15" required oninput="formatarTelefone(this)" class="field">
                     </div>
                 </div>
 
-                <!-- Botão de Confirmação -->
-                <button type="submit"
-                    class="w-full bg-moss-700 hover:bg-moss-800 text-white font-extrabold py-3.5 rounded-2xl shadow-lg transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-3">
-                    <i class="fa-brands fa-whatsapp text-base"></i>
-                    <span>Confirmar via WhatsApp</span>
+                <button type="submit" class="btn btn--primary w-full">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>Confirmar pelo WhatsApp</span>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- CONTAINER DE NOTIFICAÇÃO TOAST -->
-    <div id="toast"
-        class="fixed top-6 right-6 z-50 bg-moss-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-moss-700/60 flex items-center gap-3 transition-all duration-300 transform -translate-y-12 opacity-0 pointer-events-none">
-        <i id="toast-icon" class="fa-solid fa-check text-emerald-400"></i>
+    <!-- TOAST -->
+    <div id="toast" role="status" aria-live="polite"
+        class="fixed top-6 right-6 z-50 bg-moss-900 text-white text-sm font-medium px-4 py-3 shadow-2xl flex items-center gap-3 transition-all duration-300 transform -translate-y-12 opacity-0 pointer-events-none">
+        <i id="toast-icon" class="fa-solid fa-check text-moss-300" aria-hidden="true"></i>
         <span id="toast-message">Notificação</span>
     </div>
 
     <!-- TypeScript Entry Point (Vite) -->
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/assets/motion/motion.js"></script>
+    <script type="module" src="/assets/moments/moments.js"></script>
 </body>
 
 </html>

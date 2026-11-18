@@ -13,6 +13,7 @@ export interface Adicional {
     nome: string;
     preco: number;
     duracao: number;
+    componentes: string[];
 }
 
 export interface StatusFuncionamento {
