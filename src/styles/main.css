@@ -631,3 +631,6 @@ a.partner:hover .partner__logo { transform: scale(1.05); }
 /* logos +20% */
 .partner__logo-wrap { width: 240px; height: 96px; }
 @media (max-width: 639px) { .partner__logo-wrap { width: 180px; height: 72px; } }
+
+/* contagem de horarios por turno, como no AppBarber */
+.chip-group-label[data-count]::after { content: " · " attr(data-count); text-transform: none; letter-spacing: 0; font-weight: 400; }

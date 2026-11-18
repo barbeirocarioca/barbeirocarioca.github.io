@@ -38,6 +38,8 @@ Barba — R$ 45,00
 Corte e Barba — R$ 90,00
 
 - Para alterar o preco: basta mudar o valor apos o traco.
+- TEMPO DO SERVICO: depois do preco, coloque | e os minutos. Ex.: Corte — R$ 50,00 | 45
+  O tempo aparece na tabela, soma no agendamento e vai na mensagem do WhatsApp.
 - Para adicionar um novo servico: pule uma linha e escreva no mesmo padrao.
 - Para remover um servico: basta apagar a linha dele.
 O site organiza automaticamente as categorias e calcula o valor no agendamento.
@@ -130,3 +132,17 @@ Nome da Marca | marca.png | https://instagram.com/marca
 
 Linhas que comecam com # sao ignoradas. Se nao houver nenhuma parceria,
 a secao some do site automaticamente.
+
+--------------------------------------------------------------
+AGENDA ONLINE - HORARIOS LIVRES REAIS (appbarber.txt)
+--------------------------------------------------------------
+Arquivo: appbarber.txt
+
+O agendamento do site consulta os horarios livres do Carioca no AppBarber.
+- No fim do arquivo, cada servico tem o seu codigo do AppBarber:
+  Barba = 265994
+  (o nome tem que ser igual ao do opcoes.txt)
+- Servico sem codigo, ou se o AppBarber nao responder, usa os horarios
+  fixos do site, com aviso para confirmar pelo WhatsApp.
+- Para desligar a agenda online, apague o valor de "empresa".
+ATENCAO: o arquivo e publico. Nao coloque nele senha ou token pessoal.

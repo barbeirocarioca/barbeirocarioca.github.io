@@ -1,0 +1,17 @@
+# AGENDA ONLINE (AppBarber) - horarios livres reais no agendamento do site
+# ATENCAO: este arquivo e publico (qualquer pessoa pode abrir no navegador).
+# Se os dados abaixo forem de uma conta pessoal, troque por credenciais proprias da barbearia.
+# Para desligar a agenda online, apague o valor de "empresa" (o site volta aos horarios fixos).
+
+empresa = 1253628
+profissional = 29958410
+client_id = 3ef6adab04fda4dc9708416c27e485c0
+authorization = Basic ab94e8539a7d434fac887e291cf4ed41
+device_id = c3721c41-e370-11f1-a301-0270195194ed
+client_code = 5553932
+
+# CODIGOS DOS SERVICOS NO APPBARBER
+# Nome exatamente igual ao opcoes.txt = codigo do servico no AppBarber.
+# Servico sem codigo usa os horarios fixos do site (com aviso para confirmar no WhatsApp).
+# Para achar o codigo: no agendamento do AppBarber, escolha o servico e veja o "service=" na consulta de horarios.
+Barba = 265994
